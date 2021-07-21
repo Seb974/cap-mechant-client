@@ -1,0 +1,18 @@
+/*
+Author: <Brian NARBE> (bnprorun@gmail.com)
+gridicons.css (c) 2021
+Desc: design concernant les icons pour le display
+Created:  2021-07-13T07:49:13.741Z
+Modified: 2021-07-13T11:42:49.649Z
+*/
+
+.display{
+}
+
+.display:hover{
+    color : #2196F3
+}
+
+.display > .active{
+    color: red !important ;
+}
