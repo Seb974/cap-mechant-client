@@ -3,11 +3,10 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 AuthApi.js (c) 2021
 Desc: description
 Created:  2021-07-22T07:34:29.767Z
-Modified: 2021-07-22T11:43:00.642Z
+Modified: 2021-07-22T13:09:11.188Z
 */
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { LOGIN_URL } from "../configs/Config";
 import user from "../data/user.json";
 
 function localAuthenticate(credentials) {
@@ -20,6 +19,7 @@ function localAuthenticate(credentials) {
 }
 
 function authenticate(url,credentials) {
+  console.log(url);
   return axios
     .post(url, credentials)
     .then((response) => response.data)
@@ -27,8 +27,8 @@ function authenticate(url,credentials) {
       //je stock le token dans localstorage
       window.localStorage.setItem("authToken", data.token);
       //on préviens axios qu'on a un header par défauts pour les futurs requêtes
-      console.log(data);
       setAxiosToken(data.token);
+      return true;
     });
 }
 

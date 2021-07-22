@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 App.js (c) 2021
 Desc: Application core
 Created:  2021-06-16T12:00:06.624Z
-Modified: 2021-07-22T09:10:56.055Z
+Modified: 2021-07-22T12:21:47.773Z
 */
 
 //bootstrap
@@ -14,7 +14,6 @@ import DataProvider from "./provider/DataProvider";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import PrivateRoute from "./route/PrivateRoute";
-import "./configs/Config";
 
 function App() {
   return (

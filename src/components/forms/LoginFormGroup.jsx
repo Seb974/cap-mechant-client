@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 LoginFormGroup.jsx (c) 2021
 Desc: Form group
 Created:  2021-06-22T09:45:47.961Z
-Modified: 2021-07-22T11:45:00.256Z
+Modified: 2021-07-22T13:16:40.944Z
 */
 
 import React, { useState, useContext } from 'react';
@@ -22,8 +22,8 @@ import ConfigContext from '../../contexts/ConfigContext';
 const LoginForm = ({ history, img, title }) => {
     const { isAuth, setIsAuth } = useContext(AuthenticationContext);
     const {url, setUrl } = useContext(ConfigContext);
-    const [loginInfo, setLoginInfo] = useState({
-        mail: "",
+    const [credentials, setCredentials] = useState({
+        username: "",
         password: "",
         // rememberme: false
     })
@@ -31,16 +31,18 @@ const LoginForm = ({ history, img, title }) => {
 
     const handleChange = (event) => {
         if (event.currentTarget.type == "checkbox") {
-            setLoginInfo({ ...loginInfo, [event.currentTarget.name]: event.currentTarget.checked });
+            setCredentials({ ...credentials, [event.currentTarget.name]: event.currentTarget.checked });
         } else {
-            setLoginInfo({ ...loginInfo, [event.currentTarget.name]: event.currentTarget.value });
+            setCredentials({ ...credentials, [event.currentTarget.name]: event.currentTarget.value });
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            if (AuthApi.authenticate(url.LOGIN_URL,loginInfo)){
+           
+            if (await AuthApi.authenticate(url.LOGIN_URL,credentials)){
+                console.log("success");
                 setIsAuth(true);
                 history.replace("/");
             }
@@ -50,7 +52,6 @@ const LoginForm = ({ history, img, title }) => {
         }
 
     };
-    console.log(url.LOGIN_URL);
     return (<>
         <div className="p-5 border rounded">
             <form onSubmit={handleSubmit}>
@@ -69,13 +70,13 @@ const LoginForm = ({ history, img, title }) => {
                     )
 
                 }
-                <InputGroup name="mail" type="email" placeholder="Votre adresse email" onChange={handleChange} value={loginInfo.mail}>
+                <InputGroup name="username" type="email" placeholder="Votre adresse email" onChange={handleChange} value={credentials.mail}>
                     <HiOutlineMail size="20" />
                 </InputGroup>
-                <InputGroup name="password" type="password" placeholder="Votre mot de passe" onChange={handleChange} value={loginInfo.password} >
+                <InputGroup name="password" type="password" placeholder="Votre mot de passe" onChange={handleChange} value={credentials.password} >
                     <Si1Password size="20" />
                 </InputGroup>
-                {/* <CheckBox name="rememberme" label="Se souvenir de moi" checked={loginInfo.rememberme} id="rememberme" onChange={handleChange} /> */}
+                {/* <CheckBox name="rememberme" label="Se souvenir de moi" checked={Credentials.rememberme} id="rememberme" onChange={handleChange} /> */}
                 <div className="text-center m-2">
                     <Button variant="primary" textColor="">
                         <IoLogInOutline size="20" className="mb-1 me-2" />Se connecter
