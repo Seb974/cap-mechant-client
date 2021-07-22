@@ -18,7 +18,7 @@ import ProductGrid from '../components/products/ProductGrid';
 import products from "../data/products.json";
 import ProductImgCard from '../components/products/ProductImgCard';
 
-const PageTest = (props) => {
+const Home = (props) => {
     const [display, setDisplay] = useState(4);
     console.log(display);
     return (<>
@@ -36,4 +36,4 @@ const PageTest = (props) => {
     </>);
 }
 
-export default PageTest;
+export default Home;

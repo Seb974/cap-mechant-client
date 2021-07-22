@@ -3,16 +3,23 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 header.jsx (c) 2021
 Desc: Navbar de l'application
 Created:  2021-06-16T12:00:06.624Z
-Modified: 2021-07-05T05:10:43.778Z
+Modified: 2021-07-22T09:06:29.914Z
 */
-import React from 'react';
-//
-import { RiAccountCircleLine } from "react-icons/ri";
+import React,  {useContext}  from'react';
+//style
+import { AiOutlinePoweroff } from "react-icons/ai";
+import AuthenticationContext from '../../contexts/AuthenticationContext';
+import AuthApi from '../../api/AuthApi';
 //fields
 import Button from "../fields/Button";
 import LoginForm from '../forms/LoginForm';
 
 const Header = ({ logo, fluid = false, className, color, variant }) => {
+    const { isAuth, setIsAuth } = useContext(AuthenticationContext);
+    const handleLogOut = (event) => {
+        AuthApi.logOut();
+        setIsAuth(false);
+    }
     return (<>
         <nav className={`navbar navbar-expand-lg navbar-light  ${variant ? "bg-" + variant : ""}`} style={{
             background: color
@@ -22,7 +29,7 @@ const Header = ({ logo, fluid = false, className, color, variant }) => {
                     <img src={logo} alt="" height="40" />
                 </a>
                 <div class="d-flex">
-                    <Button variant="primary" ><RiAccountCircleLine size="20" className="mb-1 me-1" /> Connexion </Button>
+                    <Button variant="danger" ><AiOutlinePoweroff size="20" className="mx-3 mb-1" onClick={handleLogOut}/>  </Button>
                 </div>
             </div>
         </nav>

@@ -3,15 +3,29 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 DataProvider.jsx (c) 2021
 Desc: Component qui met a disposition toutes les données des différentes context.
 Created:  2021-06-17T07:39:04.515Z
-Modified: 2021-06-17T08:46:48.371Z
+Modified: 2021-07-22T09:53:18.544Z
 */
 
-import React from 'react';
+import React, { useState } from 'react';
+import AuthApi from '../api/AuthApi';
+import Config from "../functions/Url";
+import AuthenticationContext from '../contexts/AuthenticationContext';
+import ConfigContext from '../contexts/ConfigContext';
 
-const DataProvider = ({children}) => {
-    return ( <>
-        {children}
-    </> );
+
+AuthApi.setUp();
+
+
+const DataProvider = ({ children }) => {
+    const [isAuth, setIsAuth] = useState(AuthApi.isAuthenticated());
+    const [url, setUrl] = useState(Config.setUp());
+    return (
+        <ConfigContext.Provider value={{ url, setUrl }}>
+            <AuthenticationContext.Provider value={{ isAuth, setIsAuth }}>
+                {children}
+            </AuthenticationContext.Provider>
+        </ConfigContext.Provider>
+    );
 }
- 
+
 export default DataProvider;

@@ -3,21 +3,31 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 LoginFormGroup.jsx (c) 2021
 Desc: Form group
 Created:  2021-06-22T09:45:47.961Z
-Modified: 2021-06-22T09:46:28.517Z
+Modified: 2021-07-22T11:45:00.256Z
 */
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+//api
+import AuthApi from '../../api/AuthApi';
+//context
+import AuthenticationContext from '../../contexts/AuthenticationContext';
+//style
 import { HiOutlineMail, Si1Password, IoLogInOutline } from "react-icons/all";
-import InputGroup from '../fields/InputGroup';
-import CheckBox from "../fields/CheckBox";
-import Button from "../fields/Button";
 
-const LoginForm = ({ img }) => {
+//fields
+import InputGroup from '../fields/InputGroup';
+import Button from "../fields/Button";
+import ConfigContext from '../../contexts/ConfigContext';
+
+const LoginForm = ({ history, img, title }) => {
+    const { isAuth, setIsAuth } = useContext(AuthenticationContext);
+    const {url, setUrl } = useContext(ConfigContext);
     const [loginInfo, setLoginInfo] = useState({
         mail: "",
         password: "",
-        rememberme: false
+        // rememberme: false
     })
+
 
     const handleChange = (event) => {
         if (event.currentTarget.type == "checkbox") {
@@ -27,13 +37,22 @@ const LoginForm = ({ img }) => {
         }
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        try {
+            if (AuthApi.authenticate(url.LOGIN_URL,loginInfo)){
+                setIsAuth(true);
+                history.replace("/");
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
 
     };
-    
+    console.log(url.LOGIN_URL);
     return (<>
-        <div className="px-5 py-4 border rounded">
+        <div className="p-5 border rounded">
             <form onSubmit={handleSubmit}>
                 {img &&
                     (
@@ -42,16 +61,27 @@ const LoginForm = ({ img }) => {
                         </div>
                     )
                 }
+                {title &&
+                    (
+                        <div className="text-center mb-5 mt-2">
+                            <h1>{title}</h1>
+                        </div>
+                    )
+
+                }
                 <InputGroup name="mail" type="email" placeholder="Votre adresse email" onChange={handleChange} value={loginInfo.mail}>
                     <HiOutlineMail size="20" />
                 </InputGroup>
-                <InputGroup name="password" type="password" placeholder="Votre mot de passe" onChange={handleChange} value={loginInfo.password}>
+                <InputGroup name="password" type="password" placeholder="Votre mot de passe" onChange={handleChange} value={loginInfo.password} >
                     <Si1Password size="20" />
                 </InputGroup>
-                <CheckBox name="rememberme" label="Se souvenir de moi" checked={loginInfo.rememberme} id="rememberme" onChange={handleChange} />
-                <Button  variant="primary" textColor ="">
-                    <IoLogInOutline size="20" className="mb-1 me-2" />Se connecter
-                </Button>
+                {/* <CheckBox name="rememberme" label="Se souvenir de moi" checked={loginInfo.rememberme} id="rememberme" onChange={handleChange} /> */}
+                <div className="text-center m-2">
+                    <Button variant="primary" textColor="">
+                        <IoLogInOutline size="20" className="mb-1 me-2" />Se connecter
+                    </Button>
+                </div>
+
             </form>
         </div>
     </>

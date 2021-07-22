@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 App.js (c) 2021
 Desc: Application core
 Created:  2021-06-16T12:00:06.624Z
-Modified: 2021-06-22T09:35:58.267Z
+Modified: 2021-07-22T09:10:56.055Z
 */
 
 //bootstrap
@@ -11,21 +11,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DataProvider from "./provider/DataProvider";
-import PageProvider from "./provider/PageProvider";
-import PageTest from "./pages/PageTest";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import PrivateRoute from "./route/PrivateRoute";
+import "./configs/Config";
 
 function App() {
   return (
     <>
       {/* Routing de notre application  */}
       <DataProvider>
-        <PageProvider>
-          <Router>
-            <Switch>
-              <Route path="/" component={PageTest} />
-            </Switch>
-          </Router>
-        </PageProvider>
+        <Router>
+          <Switch>
+            <Route path="/connexion" component={Login} />
+            <PrivateRoute path="/" component={Home} />
+          </Switch>
+        </Router>
       </DataProvider>
     </>
   );
