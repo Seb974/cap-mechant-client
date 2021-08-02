@@ -27,22 +27,21 @@ const CartOverview = (props) => {
             </div>
             <div className="card-body p-0" style={{
                 overflowY: "scroll",
-                height : "30rem"
+                height: "30rem"
             }}>
                 <ul className="list-group rounded-0">
-                    {cart && cart.map((product, index) => {
+                    {(cart && cart.length > 0) ? (cart.map((product, index) => {
                         return (
                             <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
                                 <p className="m-0"> {product.name} <span className="fw-bold text-end">x {product.quantity}</span> </p>
-                                <button className="mx-2 bg-white border-0" onClick={handleDelete}><CgTrash className="mb-1 text-danger" size={25}/></button>
+                                <button className="mx-2 bg-white border-0" onClick={handleDelete}><CgTrash className="mb-1 text-danger" size={25} /></button>
                             </li>
                         )
                     })
-                    
-                    }
-                    {cart.length == 0 && (<>
-                            <p className="text-center text-dark m-5 fst-italic">Panier vide</p></>
-                        )
+                    ) : (
+                        <p className="text-center text-dark m-5 fst-italic">Panier vide</p>
+                    )
+
                     }
                     {/* <li className="list-group-item d-flex justify-content-between align-items-center">
                                 <p className="m-0">A list item <span className="fw-bold text-end">x 15</span> </p>

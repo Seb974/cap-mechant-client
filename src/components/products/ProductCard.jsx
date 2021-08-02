@@ -30,6 +30,7 @@ const ProductCard = ({ product, display }) => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log(cart);
         if (order.quantity != 0) {
             const c = [...cart];
             const index = c.findIndex( p => p.id === product.id);
@@ -49,6 +50,7 @@ const ProductCard = ({ product, display }) => {
             });
         }
     }
+
     return (<>
         <Column md={6} xl={display} className=" mb-4">
             <form className="card shadow bg-body " onSubmit={handleSubmit} >
