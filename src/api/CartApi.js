@@ -8,8 +8,10 @@ Modified: 2021-08-02T06:04:03.842Z
 
 function getLocalCart() {
   const cart = JSON.parse(window.localStorage.getItem("cart"));
-  if (cart && cart.length != 0) {
+  if (cart != null) {
     return cart;
+  }else {
+    return [];
   }
 }
 
