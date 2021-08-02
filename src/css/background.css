@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 background.css (c) 2021
 Desc: description
 Created:  2021-07-22T13:34:47.222Z
-Modified: 2021-07-22T13:39:51.302Z
+Modified: 2021-07-30T13:29:38.157Z
 */
 
 .gradient-custom {
@@ -32,4 +32,24 @@ Modified: 2021-07-22T13:39:51.302Z
 ::-ms-input-placeholder {
   /* Microsoft Edge */
   color: white;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar {
+  overflow : scroll;
+  height : 40rem !important;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.bg-black{
+  background-color: rgba(0, 0, 0) !important;
+}
+.Toastify__toast--warning {
+  background:#F93154 !important;
 }

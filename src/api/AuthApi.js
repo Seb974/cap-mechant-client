@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 AuthApi.js (c) 2021
 Desc: description
 Created:  2021-07-22T07:34:29.767Z
-Modified: 2021-07-22T13:09:11.188Z
+Modified: 2021-08-02T06:05:08.009Z
 */
 import axios from "axios";
 import jwtDecode from "jwt-decode";
@@ -19,7 +19,6 @@ function localAuthenticate(credentials) {
 }
 
 function authenticate(url,credentials) {
-  console.log(url);
   return axios
     .post(url, credentials)
     .then((response) => response.data)

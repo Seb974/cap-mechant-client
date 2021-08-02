@@ -7,65 +7,61 @@
  */
 
 import React, { useState } from 'react';
-//wrappers
+import { ToastContainer } from 'react-toastify';
+//style
 import { AiOutlineSearch } from 'react-icons/ai';
-import '../css/background.css'
+import '../css/background.css';
+//wrappers
+import Container from "../wrappers/Container";
+import Column from "../wrappers/Column";
+//data
+import Data from "../data/products.json";
+//fields
+import Button from "../components/fields/Button";
+//components
+import CartOverview from '../components/cart/cartOverview';
+import ProductCard from '../components/products/ProductCard';
+
 const Home = (props) => {
-    const [display, setDisplay] = useState(6);
+    const [search, setSearch] = useState("");
+    const filteredProduct = Data.filter( product => 
+       product.name.toLowerCase().includes(search.toLowerCase()) ||
+       product.category.find( cat => cat == search.toLowerCase())
+    )
+    const handleChange = ({currentTarget}) => setSearch(currentTarget.value);
     return (<>
-        <div className="container-fluid px-5">
-            <div class="input-group my-3 ">
-                <span class="input-group-text bg-dark text-white" id="basic-addon1"><AiOutlineSearch size={30} /></span>
-                <input type="text" class="form-control p-3" placeholder="Rechechez le nom de votre article" aria-label="Username" aria-describedby="basic-addon1" />
-            </div>
-            <div className="row ">
-                <div className="col-2">
-                    <div className="p-4 shadow p-3 mb-5 bg-body rounded">
-                        <h1>Catégorie</h1>
-                        <ul class="list-group">
-                            <li class="list-group-item border-0">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-                                First checkbox
-                            </li>
-                            <li class="list-group-item border-0">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-                                Second checkbox
-                            </li>
-                            <li class="list-group-item border-0">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-                                Third checkbox
-                            </li>
-                            <li class="list-group-item border-0">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-                                Fourth checkbox
-                            </li>
-                            <li class="list-group-item border-0">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-                                Fifth checkbox
-                            </li>
-                        </ul>
-                    </div>
+        <Container fluid={true} justifyContent="center">
+            <Column className="d-block">
+                <div className="input-group my-3">
+                    <span className="input-group-text bg-dark text-white"><AiOutlineSearch size={30} /></span>
+                    <input type="text" className="form-control p-3" placeholder="Rechechez le nom de votre article" value={search} onChange={handleChange}/>
                 </div>
-                <div className="col-9">
-                    <div className="row">
-                        <div className="col-3">
-                            <div class="card shadow mb-5 bg-body ">
-                                <div class="card-header">Dessert</div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Sushi</h5>
-                                    <div class="input-group my-3 ">
-                                        <span class="input-group-text bg-dark text-white px-4" id="basic-addon1">-</span>
-                                        <input type="number" class="form-control p-3 " aria-label="Username" aria-describedby="basic-addon1" value="6" />
-                                        <span class="input-group-text bg-dark text-white px-4" id="basic-addon1">+</span>
-                                    </div>
-                                </div>
-                                <div class="rounded-0 rounded-bottom  btn btn-success py-3">Ajouter <span className="fw-bold mx-2">2</span>  au panier</div>
-                            </div>
-                        </div>
-                    </div>
+            </Column>
+            <div className="col-xs-12 col-lg-10">
+                <div className="row scrollbar">
+                    {filteredProduct.map((product, index) => {
+                        return (
+                            <ProductCard display={3} product={product} key={product.id} />
+                        )
+                    }
+                    )}
+
                 </div>
             </div>
-        </div>
+            <Column xl={2} className="d-none d-lg-block">
+                <CartOverview />
+            </Column>
+        </Container>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+        />
     </>);
 }
 

@@ -3,13 +3,13 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 Button.jsx (c) 2021
 Desc: description
 Created:  2021-06-22T07:08:15.386Z
-Modified: 2021-06-22T10:31:28.125Z
+Modified: 2021-07-27T10:51:14.524Z
 */
 import React from 'react';
 
 const Button = ({className, variant, color, textColor, type = "submit" , children}) => {
     return (<>
-        <button className={`p-2 border-0 ${className ? className : ""} ${variant ? " btn btn-" + variant : " btn"}`}
+        <button className={`border-0 ${className ? className : ""} ${variant ? " btn btn-" + variant : " btn"}`}
             style={{
                 backgroundColor: color,
                 color : textColor,

@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 LoginFormGroup.jsx (c) 2021
 Desc: Form group
 Created:  2021-06-22T09:45:47.961Z
-Modified: 2021-07-22T13:16:40.944Z
+Modified: 2021-07-29T08:17:33.150Z
 */
 
 import React, { useState, useContext } from 'react';
@@ -19,7 +19,7 @@ import InputGroup from '../fields/InputGroup';
 import Button from "../fields/Button";
 import ConfigContext from '../../contexts/ConfigContext';
 
-const LoginForm = ({ history, img, title }) => {
+const LoginForm = ({ history, children }) => {
     const { isAuth, setIsAuth } = useContext(AuthenticationContext);
     const {url, setUrl } = useContext(ConfigContext);
     const [credentials, setCredentials] = useState({
@@ -53,23 +53,9 @@ const LoginForm = ({ history, img, title }) => {
 
     };
     return (<>
-        <div className="p-5 border rounded">
+        <div className="p-5 ">
             <form onSubmit={handleSubmit}>
-                {img &&
-                    (
-                        <div className="text-center mb-5 mt-2">
-                            <img src={img} className="border rounded-circle" width="130" />
-                        </div>
-                    )
-                }
-                {title &&
-                    (
-                        <div className="text-center mb-5 mt-2">
-                            <h1>{title}</h1>
-                        </div>
-                    )
-
-                }
+                {children}
                 <InputGroup name="username" type="email" placeholder="Votre adresse email" onChange={handleChange} value={credentials.mail}>
                     <HiOutlineMail size="20" />
                 </InputGroup>
@@ -77,8 +63,8 @@ const LoginForm = ({ history, img, title }) => {
                     <Si1Password size="20" />
                 </InputGroup>
                 {/* <CheckBox name="rememberme" label="Se souvenir de moi" checked={Credentials.rememberme} id="rememberme" onChange={handleChange} /> */}
-                <div className="text-center m-2">
-                    <Button variant="primary" textColor="">
+                <div className="text-center mt-5">
+                    <Button variant="primary" textColor="" color="#658852">
                         <IoLogInOutline size="20" className="mb-1 me-2" />Se connecter
                     </Button>
                 </div>
