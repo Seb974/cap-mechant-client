@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 Login.jsx (c) 2021
 Desc: description
 Created:  2021-07-22T07:57:58.411Z
-Modified: 2021-07-29T08:13:16.679Z
+Modified: 2021-08-02T09:29:26.813Z
 */
 import React, { useContext } from 'react';
 import LoginFormGroup from '../components/forms/LoginFormGroup';
@@ -22,7 +22,6 @@ const Login = ({history}) => {
             <Column md={3} className="bg-light rounded-3 shadow mb-5 bg-black" >
                 <LoginFormGroup title="Espace membre" history={history}>
                     <div className="d-flex flex-column justify-content-center text-center mb-4">
-                       {/* <div><VscAccount size={150} /></div>  */}
                        <img src="img/logo/capmechant.jpg" alt="" />
                         <div className="text-white"><p>Espace membre Cap Méchant</p></div>
                     </div>

@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 ProductCard.jsx (c) 2021
 Desc: description
 Created:  2021-07-05T05:52:53.094Z
-Modified: 2021-08-02T05:53:18.907Z
+Modified: 2021-08-04T07:41:40.168Z
 */
 import React, { useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -12,14 +12,13 @@ import { BsFillPlusCircleFill, BsFillDashCircleFill } from "react-icons/bs"
 import Button from "../fields/Button";
 import Column from '../../wrappers/Column';
 import CartContext from '../../contexts/CartContext';
-import { GiConsoleController } from 'react-icons/gi';
 
 const ProductCard = ({ product, display }) => {
     const { cart, setCart } = useContext(CartContext);
     const [order, setOrder] = useState({
         id: product.id,
         quantity: 0,
-        stock: "",
+        stock: 0,
         name: product.name
     })
     const handleClick = (number) => {
@@ -52,7 +51,6 @@ const ProductCard = ({ product, display }) => {
     }
 
     return (<>
-        <Column md={6} xl={display} className=" mb-4">
             <form className="card shadow bg-body " onSubmit={handleSubmit} >
                 <div className="card-header">{product.category}</div>
                 <div className="card-body" style={{
@@ -79,9 +77,6 @@ const ProductCard = ({ product, display }) => {
 
                 </div>
             </form>
-
-        </Column>
-
     </>);
 }
 
