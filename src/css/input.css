@@ -1,0 +1,18 @@
+/*
+Author: <Brian NARBE> (bnprorun@gmail.com)
+input.css (c) 2021
+Desc: description
+Created:  2021-08-11T11:12:26.300Z
+Modified: 2021-08-11T11:13:34.348Z
+*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

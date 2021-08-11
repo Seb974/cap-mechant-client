@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 cartOverview.jsx (c) 2021
 Desc: description
 Created:  2021-07-30T12:12:29.483Z
-Modified: 2021-08-04T07:42:54.928Z
+Modified: 2021-08-05T09:49:24.716Z
 */
 
 import React, { useContext } from 'react';
@@ -16,12 +16,13 @@ import CartApi from "../../api/CartApi";
 const CartOverview = (props) => {
     const { cart, setCart } = useContext(CartContext);
     const handleDelete = (index) => {
-        const c = [...cart];
-        c.splice(index, 1);
+        const c = {...cart};
+        c.items.splice(index, 1);
         setCart(c);
+        CartApi.localStorageCart(c);
     }
     const handleClean = (event) => {
-        setCart([]);
+        setCart({...cart, items : []})
         CartApi.cleanLocalCart();
     }
     return (<>
@@ -34,13 +35,13 @@ const CartOverview = (props) => {
                 height: "30rem"
             }}>
                 <ul className="list-group rounded-0">
-                    {(cart && cart.length > 0) ? (cart.map((product, index) => {
-                        return (<>
+                    {(cart.items && cart.items.length > 0) ? (cart.items.map((product, index) => {
+                        return (
                             <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
-                                <p className="m-0"> {product.name} <span className="fw-bold text-end">x {product.quantity}</span> </p>
-                                <button className="mx-2 bg-white border-0" onClick={handleDelete}><CgTrash className="mb-1 text-danger" size={25} /></button>
+                                <p className="m-0"> {product.product.name} <span className="fw-bold text-end">x {product.orderedQty}</span> </p>
+                                <button className="mx-2 bg-white border-0" onClick={(event) => handleDelete(index)}><CgTrash className="mb-1 text-danger" size={25} /></button>
                             </li>
-                        </>)
+                        )
                     })
                     ) : (
                         <p className="text-center text-dark m-5 fst-italic">Panier vide</p>
@@ -49,7 +50,7 @@ const CartOverview = (props) => {
                     }
                 </ul>
             </div>
-            {(cart && cart.length > 0 ) &&
+            {(cart.items && cart.items.length > 0 ) &&
                 <div className=" rounded-0 d-flex justify-content-center p-3">
                 <button className="text-decoration-underline text-danger border-0 bg-white" onClick={handleClean}> Vider mon panier </button>
             </div>

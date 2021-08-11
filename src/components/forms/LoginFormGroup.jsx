@@ -3,12 +3,12 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 LoginFormGroup.jsx (c) 2021
 Desc: Form group
 Created:  2021-06-22T09:45:47.961Z
-Modified: 2021-07-29T08:17:33.150Z
+Modified: 2021-08-05T09:53:48.950Z
 */
 
 import React, { useState, useContext } from 'react';
 //api
-import AuthApi from '../../api/AuthApi';
+import {authenticate} from '../../api/AuthApi';
 //context
 import AuthenticationContext from '../../contexts/AuthenticationContext';
 //style
@@ -41,7 +41,7 @@ const LoginForm = ({ history, children }) => {
         event.preventDefault();
         try {
            
-            if (await AuthApi.authenticate(url.LOGIN_URL,credentials)){
+            if (await authenticate(url.LOGIN_URL,credentials)){
                 console.log("success");
                 setIsAuth(true);
                 history.replace("/");

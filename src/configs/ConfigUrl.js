@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 Url.js (c) 2021
 Desc: description
 Created:  2021-07-22T09:33:43.561Z
-Modified: 2021-07-22T12:57:58.480Z
+Modified: 2021-08-09T09:55:26.697Z
 */
 
 function setUp(){
@@ -16,7 +16,7 @@ function setUp(){
         "USER_URL" : API_URL + "/users",
         "PRODUCT_URL" : API_URL + "/products",
         "SUPPLIER_URL" : API_URL + "/suppliers",
-        "ORDER_URL" : API_URL + "/orders"
+        "ORDER_URL" : API_URL + "/order_entities"
     })
 }
 
