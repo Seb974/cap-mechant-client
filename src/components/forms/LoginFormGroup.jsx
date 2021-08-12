@@ -53,7 +53,7 @@ const LoginForm = ({ history, children }) => {
 
     };
     return (<>
-        <div className="p-5 ">
+        <div className="p-5">
             <form onSubmit={handleSubmit}>
                 {children}
                 <InputGroup name="username" type="email" placeholder="Votre adresse email" onChange={handleChange} value={credentials.mail}>

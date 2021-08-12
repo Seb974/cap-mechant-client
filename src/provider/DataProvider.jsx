@@ -40,33 +40,39 @@ const DataProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        CatalogApi.findAll()
+        CatalogApi.findAll(url.CATALOG_URL)
             .then(response => setCatalogs(response));
     }, []);
 
     useEffect(() => {
         if (isDefinedAndNotVoid(catalogs)) {
+            fecthProducts();
             const catalog = catalogs.find(catalogOption => catalogOption.code === country);
             const selection = isDefined(catalog) ? catalog : catalogs.filter(country => country.isDefault);
             setSelectedCatalog(selection);
-            setCart({...cart, catalog : catalogs[0]["@id"]});
         }
     }, [catalogs, country]);
+
     useEffect(() => {
-        fecthProducts();
-    }, []);
+        if(isAuth && catalogs.length > 0){
+            const cat = catalogs[0]['@id'];
+            setCart(CartApi.cartSetUp(cat));
+        }
+    }, [isAuth])
+    console.log(cart);
     return (
 
         <ConfigContext.Provider value={{ url, setUrl }}>
-            <CatalogContext.Provider value={{ catalogs, setCatalogs}}>
+
             <AuthenticationContext.Provider value={{ isAuth, setIsAuth }}>
-                <ProductContext.Provider value={{ products, setProducts }}>
-                    <CartContext.Provider value={{ cart, setCart }}>
-                        {children}
-                    </CartContext.Provider>
-                </ProductContext.Provider>
+                <CatalogContext.Provider value={{ catalogs, setCatalogs }}>
+                    <ProductContext.Provider value={{ products, setProducts }}>
+                        <CartContext.Provider value={{ cart, setCart }}>
+                            {children}
+                        </CartContext.Provider>
+                    </ProductContext.Provider>
+                </CatalogContext.Provider>
             </AuthenticationContext.Provider>
-            </CatalogContext.Provider>
         </ConfigContext.Provider >
     );
 }

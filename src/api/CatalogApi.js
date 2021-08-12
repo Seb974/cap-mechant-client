@@ -1,9 +1,9 @@
 // import api from 'src/config/api';
 import axios from 'axios';
 
-function findAll() {
+function findAll(url) {
     return axios
-        .get('http://localhost:8000/api/catalogs')
+        .get(url)
         .then(response => response.data['hydra:member'].sort((a, b) => (a.name > b.name) ? -1 : 1));
 }
 

@@ -25,12 +25,6 @@ const ProductCard = ({ product, display }) => {
         unit: product.unit,
         stock: 0
     })
-    const [order, setOrder] = useState({
-        id: product.id,
-        quantity: 0,
-        stock: 0,
-        name: product.name
-    })
     const handleClick = (number) => setItem({ ...item, orderedQty: (item.orderedQty + number) < 0 ? 0 : item.orderedQty + number });
 
     const handleChange = ({ currentTarget }) => {
@@ -39,7 +33,7 @@ const ProductCard = ({ product, display }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (item.orderedQty != 0) {
-            const c = { ...cart };
+            const c = { ...cart }; 
             const index = c.items.findIndex(p => p.product['@id'] === product['@id']);
             (index != -1) ? c.items[index].orderedQty += item.orderedQty : c.items.push(item);
             setCart({ ...cart, items: c.items });

@@ -19,7 +19,7 @@ function getLocalCart() {
   }
 }
 
-function cartStructure(data){
+function cartStructure(data, catalog){
   const newDate = new Date();
   const FormatDate = new Date(newDate.getFullYear(), newDate.getMonth(),newDate.getDate(), 9, 0, 0);
   return {
@@ -30,19 +30,19 @@ function cartStructure(data){
     items: [],
     deliveryDate: FormatDate,
     status : "WAITING",
-    catalog : "/api/catalogs/2",
+    catalog : catalog,
     appliedCondition : null
   }
   
 }
 
-function cartSetUp(){
+function cartSetUp(catalog){
   const token = window.localStorage.getItem("authToken");
   const cart = JSON.parse(window.localStorage.getItem("cart"));
 
   if(token){
     const data = jwtDecode(token);
-    return (cart != null) ? cart : cartStructure(data);
+    return (cart != null) ? cart : cartStructure(data, catalog);
   }else {
     return {};
   }

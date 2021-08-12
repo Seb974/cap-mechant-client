@@ -16,7 +16,8 @@ function setUp(){
         "USER_URL" : API_URL + "/users",
         "PRODUCT_URL" : API_URL + "/products",
         "SUPPLIER_URL" : API_URL + "/suppliers",
-        "ORDER_URL" : API_URL + "/order_entities"
+        "ORDER_URL" : API_URL + "/order_entities",
+        "CATALOG_URL" : API_URL + "/catalogs"
     })
 }
 
