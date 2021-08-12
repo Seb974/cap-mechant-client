@@ -37,10 +37,10 @@ const Home = (props) => {
             <Column >
                 <div className="input-group my-3">
                     <span className="input-group-text bg-dark text-white"><AiOutlineSearch size={30} /></span>
-                    <input type="text" className="form-control p-3" placeholder="Rechechez le nom de votre article" value={search} onChange={handleChange} />
+                    <input type="text" className="form-control p-3" placeholder="Nom produit, catégorie" value={search} onChange={handleChange} />
                 </div>
             </Column>
-            <Column lg={10} className=" h-100 " >
+            <Column lg={9} className=" h-100 " >
                 <div className="row  scrollbar" >
                     {filteredProduct.map((product, index) => {
                         return (
@@ -52,7 +52,7 @@ const Home = (props) => {
                     )}
                 </div>
             </Column>
-            <Column lg={2} xl={2} className="d-none d-lg-block h-100">
+            <Column lg={3} xl={3} className="d-none d-lg-block h-100">
                 <CartOverview />
             </Column>
         </Row>

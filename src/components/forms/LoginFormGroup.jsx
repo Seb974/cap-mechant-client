@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 LoginFormGroup.jsx (c) 2021
 Desc: Form group
 Created:  2021-06-22T09:45:47.961Z
-Modified: 2021-08-05T09:53:48.950Z
+Modified: 2021-08-12T08:21:00.898Z
 */
 
 import React, { useState, useContext } from 'react';
@@ -41,8 +41,7 @@ const LoginForm = ({ history, children }) => {
         event.preventDefault();
         try {
            
-            if (await authenticate(url.LOGIN_URL,credentials)){
-                console.log("success");
+            if (await authenticate(credentials)){
                 setIsAuth(true);
                 history.replace("/");
             }

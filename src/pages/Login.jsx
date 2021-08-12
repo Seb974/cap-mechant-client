@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 Login.jsx (c) 2021
 Desc: description
 Created:  2021-07-22T07:57:58.411Z
-Modified: 2021-08-02T09:29:26.813Z
+Modified: 2021-08-12T08:14:11.611Z
 */
 import React, { useContext } from 'react';
 import LoginFormGroup from '../components/forms/LoginFormGroup';
@@ -14,8 +14,6 @@ import ConfigContext from '../contexts/ConfigContext';
 import {VscAccount} from 'react-icons/vsc';
 
 const Login = ({history}) => {
-    const {url, setUrl}= useContext(ConfigContext); 
-    console.log(url);
     return (<>
         <Container fluid={true} row={true} justifyContent='center' className="bg-light p-5" style={{
             maxHeight : "100% !important"

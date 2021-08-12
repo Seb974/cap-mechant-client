@@ -3,13 +3,12 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 cartorder.jsx (c) 2021
 Desc: Recapitulatif de la commande
 Created:  2021-08-02T09:38:04.925Z
-Modified: 2021-08-10T13:18:04.314Z
+Modified: 2021-08-12T08:38:10.341Z
 */
 
 import React, { useContext } from 'react';
 import Row from "../../wrappers/Row";
 import CartContext from '../../contexts/CartContext';
-import CartField from './cartField';
 import CartApi from '../../api/CartApi';
 import Column from '../../wrappers/Column';
 import 'flatpickr/dist/themes/material_blue.css';
@@ -18,7 +17,6 @@ import Flatpickr from 'react-flatpickr';
 import ConfigContext from '../../contexts/ConfigContext';
 import CatalogContext from '../../contexts/CatalogContext';
 import QuantityInput from '../fields/QuantityInput';
-import { HiOutlinePlusCircle, HiOutlineMinusCircle } from "react-icons/hi"
 
 const CartOrder = (props) => {
     const { cart, setCart } = useContext(CartContext);
@@ -45,7 +43,7 @@ const CartOrder = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        CartApi.sendOrder(url.ORDER_URL, cart);
+        CartApi.sendOrder(cart);
     }
     return (<>
         <h1 className="fs-1 text-center mt-5"> Ma commande</h1>

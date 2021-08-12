@@ -3,16 +3,18 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 DataProvider.jsx (c) 2021
 Desc: Component qui met a disposition toutes les données des différentes context.
 Created:  2021-06-17T07:39:04.515Z
-Modified: 2021-08-10T07:14:48.055Z
+Modified: 2021-08-12T08:34:50.113Z
 */
 
 import React, { useState, useEffect } from 'react';
 import Config from "../configs/ConfigUrl";
 
+//api
 import { setUp, isAuthenticated } from '../api/AuthApi';
 import CartApi from "../api/CartApi";
 import CatalogApi from "../api/CatalogApi";
 import ProductApi from '../api/ProductApi';
+
 import { isDefined, isDefinedAndNotVoid } from '../functions/utils';
 import ProductContext from '../contexts/ProductContext';
 import AuthenticationContext from '../contexts/AuthenticationContext';
@@ -32,7 +34,7 @@ const DataProvider = ({ children }) => {
     const [selectedCatalog, setSelectedCatalog] = useState({});
     const fecthProducts = async () => {
         try {
-            const p = await ProductApi.allProducts(url.PRODUCT_URL);
+            const p = await ProductApi.allProducts();
             setProducts(p);
         } catch (error) {
 
@@ -40,13 +42,13 @@ const DataProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        CatalogApi.findAll(url.CATALOG_URL)
+        fecthProducts();
+        CatalogApi.findAll()
             .then(response => setCatalogs(response));
     }, []);
 
     useEffect(() => {
         if (isDefinedAndNotVoid(catalogs)) {
-            fecthProducts();
             const catalog = catalogs.find(catalogOption => catalogOption.code === country);
             const selection = isDefined(catalog) ? catalog : catalogs.filter(country => country.isDefault);
             setSelectedCatalog(selection);
@@ -59,7 +61,7 @@ const DataProvider = ({ children }) => {
             setCart(CartApi.cartSetUp(cat));
         }
     }, [isAuth])
-    console.log(cart);
+
     return (
 
         <ConfigContext.Provider value={{ url, setUrl }}>

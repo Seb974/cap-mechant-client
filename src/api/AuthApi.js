@@ -3,24 +3,17 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 AuthApi.js (c) 2021
 Desc: description
 Created:  2021-07-22T07:34:29.767Z
-Modified: 2021-08-05T09:52:40.553Z
+Modified: 2021-08-12T08:09:41.872Z
 */
+import  { API_LOGIN } from "../configs/ApiConfig";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import user from "../data/user.json";
 
-export function localAuthenticate(credentials) {
-  if(credentials.email === user.email && credentials.password === user.password){
-    return true;
-  }else{
-    return false;
-  }
- 
-}
 
-export function authenticate(url,credentials) {
+
+export function authenticate(credentials) {
   return axios
-    .post(url, credentials)
+    .post(API_LOGIN, credentials)
     .then((response) => response.data)
     .then((data) => {
       //je stock le token dans localstorage

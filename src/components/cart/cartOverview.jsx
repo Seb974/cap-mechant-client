@@ -3,28 +3,52 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 cartOverview.jsx (c) 2021
 Desc: description
 Created:  2021-07-30T12:12:29.483Z
-Modified: 2021-08-05T09:49:24.716Z
+Modified: 2021-08-12T08:23:02.612Z
 */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CgTrash } from "react-icons/cg";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { IoIosArrowForward } from "react-icons/io";
 import CartContext from '../../contexts/CartContext';
 import { NavLink } from 'react-router-dom';
 import CartApi from "../../api/CartApi";
+import { toast } from "react-toastify";
+
 const CartOverview = (props) => {
+    const [isEmpty, setIsEmpty] = useState(true);
     const { cart, setCart } = useContext(CartContext);
     const handleDelete = (index) => {
-        const c = {...cart};
+        const c = { ...cart };
         c.items.splice(index, 1);
         setCart(c);
         CartApi.localStorageCart(c);
     }
     const handleClean = (event) => {
-        setCart({...cart, items : []})
+        setCart({ ...cart, items: [] })
         CartApi.cleanLocalCart();
     }
+    const showToast = () => {
+        toast.warn('Attention vous n\'avez pas ajouté d\'article dans le panier', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+    const handleClick = (event) => {
+        if (!isEmpty) {
+            event.preventDefault();
+            showToast();
+        }
+
+    }
+    useEffect(() => {
+        (cart.items && cart.items.length > 0) ? setIsEmpty(true) : setIsEmpty(false);
+    }, [cart]);
     return (<>
         <div className="card shadow  mb-5 bg-body rounded ">
             <div className="card-header text-white bg-dark">
@@ -50,13 +74,12 @@ const CartOverview = (props) => {
                     }
                 </ul>
             </div>
-            {(cart.items && cart.items.length > 0 ) &&
+            {(cart.items && cart.items.length > 0) &&
                 <div className=" rounded-0 d-flex justify-content-center p-3">
-                <button className="text-decoration-underline text-danger border-0 bg-white" onClick={handleClean}> Vider mon panier </button>
-            </div>
+                    <button className="text-decoration-underline text-danger border-0 bg-white" onClick={handleClean}> Vider mon panier </button>
+                </div>
             }
-            
-            <NavLink to="/ma-commande" className=" btn btn-success rounded-0 d-flex justify-content-between p-3">
+            <NavLink to="/ma-commande" className=" btn btn-success rounded-0 d-flex justify-content-between p-3" onClick={(event) => handleClick(event)}>
                 <span> Passer commande</span>
                 <span><IoIosArrowForward /></span>
             </NavLink>
