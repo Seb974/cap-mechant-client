@@ -3,9 +3,9 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 CartApi.js (c) 2021
 Desc: description
 Created:  2021-08-02T05:57:01.529Z
-Modified: 2021-08-24T14:09:48.477Z
+Modified: 2021-08-24T14:42:41.456Z
 */
-import { API_ORDER } from "../configs/ApiConfig";
+import { API_PROVISION } from "../configs/ApiConfig";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
@@ -60,7 +60,7 @@ function cleanLocalCart(){
 
 function sendOrder(data){
   return axios
-    .post(API_ORDER, {...data, items: data.items.map(i => ({...i, product: i.product['@id']}))});
+    .post(API_PROVISION, {...data, items: data.items.map(i => ({...i, product: i.product['@id']}))});
 }
 
 export default {
