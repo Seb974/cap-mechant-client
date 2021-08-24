@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 CartApi.js (c) 2021
 Desc: description
 Created:  2021-08-02T05:57:01.529Z
-Modified: 2021-08-12T08:32:26.351Z
+Modified: 2021-08-24T14:09:48.477Z
 */
 import { API_ORDER } from "../configs/ApiConfig";
 import axios from "axios";
@@ -28,13 +28,11 @@ function cartStructure(data, catalog){
     user: "/api/users/" + data.id,
     email: data.email,
     metas: "/api/metas/" + data.metas.id,
-    items: [],
-    deliveryDate: FormatDate,
+    goods: [],
+    provisionDate: FormatDate,
     status : "WAITING",
-    catalog : catalog,
-    appliedCondition : null
+    supplier :""
   }
-  
 }
 
 function cartSetUp(catalog){

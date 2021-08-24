@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 ProductCard.jsx (c) 2021
 Desc: description
 Created:  2021-07-05T05:52:53.094Z
-Modified: 2021-08-24T07:58:04.516Z
+Modified: 2021-08-24T13:30:27.760Z
 */
 import React, { useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -34,9 +34,9 @@ const ProductCard = ({ product, display }) => {
         event.preventDefault();
         if (item.orderedQty != 0) {
             const c = { ...cart }; 
-            const index = c.items.findIndex(p => p.product['@id'] === product['@id']);
-            (index != -1) ? c.items[index].orderedQty += item.orderedQty : c.items.push(item);
-            setCart({ ...cart, items: c.items });
+            const index = c.goods.findIndex(p => p.product['@id'] === product['@id']);
+            (index != -1) ? c.goods[index].orderedQty += item.orderedQty : c.goods.push(item);
+            setCart({ ...cart, goods: c.goods });
             CartApi.localStorageCart(c);
             setItem({ ...item, orderedQty: 0 });
         } else {

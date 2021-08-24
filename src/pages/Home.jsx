@@ -24,71 +24,51 @@ import Row from '../wrappers/Row';
 import ProductList from '../components/products/ProductList';
 import SelectList from '../components/fields/Select';
 import CartContext from '../contexts/CartContext';
+import SuppliersListContext from '../contexts/SuppliersListContext';
+import SupplierContext from '../contexts/SupplierContext';
+import SupplierProductsContext from '../contexts/SupplierProductsContext';
 
 
 const Home = (props) => {
-    const { products, setProducts } = useContext(ProductContext);
+    const { supplierProducts, setSupplierProducts } = useContext(SupplierProductsContext);
     const { cart, setCart } = useContext(CartContext);
     const [search, setSearch] = useState("");
     const [display, setDisplay] = useState("list");
-    const [suppliers, setSuppliers] = useState([]);
+    const { supplier, setSupplier } = useContext(SupplierContext);
+    const { suppliersList, setSuppliersList } = useContext(SuppliersListContext);
     const [selectedSupplier, setSelectedSupplier] = useState("");
     const [currentProducts, setCurrentProducts] = useState([]);
 
     const handleSelectChange = (event) => {
-        setSelectedSupplier(event.value);
+        setSupplier({ value: event.value, label: event.label });
         setCart({ ...cart, supplier: event.value });
     }
 
     const filteredSearchProduct = () => {
-        const tab = [...products]
-        const result = tab.filter(product =>
-            product.name.toLowerCase().includes(search.toLowerCase()) ||
-            product.categories[0].name.toLowerCase().includes(search.toLowerCase())
-        )
-        setCurrentProducts(result);
-    }
-
-    const filteredSupplierProduct = () => {
-        const tab = [...products]
-        const result = tab.filter(product =>
-            product.suppliers.findIndex(s => s['@id'] === selectedSupplier) != -1
-        )
-        setCurrentProducts(result);
-    }
-
-    const fetchSuppliers = async () => {
-        try {
-            const data = await SupplierApi.findAll();
-            setSuppliers(data);
-        } catch (error) {
-
+        if (supplierProducts && supplierProducts.length > 0) {
+            const tab = [...supplierProducts]
+            const result = tab.filter(product =>
+                product.name.toLowerCase().includes(search.toLowerCase()) ||
+                product.categories[0].name.toLowerCase().includes(search.toLowerCase())
+            )
+            setCurrentProducts(result);
         }
     }
 
     const createCurrentProductsList = () => {
-        if (products && products.length > 0) setCurrentProducts(products);
+        if (supplierProducts && supplierProducts.length > 0) filteredSearchProduct(supplierProducts);
     }
 
     const handleChange = ({ currentTarget }) => setSearch(currentTarget.value);
 
     useEffect(() => {
-        fetchSuppliers();
-    }, []);
-
-    useEffect(() => {
         createCurrentProductsList();
-    }, [products]);
-
-    useEffect(() => {
-        filteredSupplierProduct();
-    }, [selectedSupplier]);
+        setSearch("");
+    }, [supplierProducts]);
 
     useEffect(() => {
         filteredSearchProduct();
     }, [search]);
-
-    // console.log(currentProducts);
     return (<>
         <Row justifyContent="center" >
             <Column xl={12} className="">
@@ -111,13 +91,17 @@ const Home = (props) => {
                             )
                     }
                     )}
+                    {(currentProducts.length <= 0) &&
+                        <span className="m-5  text-center text-dark m-5 fst-italic">Merci de bien vouloir selectionner un fournisseur</span>
+                    }
                 </div>
             </Column>
             <Column lg={3} xl={3} className="d-none d-lg-block h-100">
                 <SelectList
-                    data={suppliers}
+                    data={suppliersList}
                     label="Selectionnez un fournisseur..."
                     onChange={handleSelectChange}
+                    defaultValue={supplier}
                 />
                 <CartOverview />
             </Column>
