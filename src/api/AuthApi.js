@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 AuthApi.js (c) 2021
 Desc: description
 Created:  2021-07-22T07:34:29.767Z
-Modified: 2021-08-12T08:09:41.872Z
+Modified: 2021-08-20T08:07:48.053Z
 */
 import  { API_LOGIN } from "../configs/ApiConfig";
 import axios from "axios";
@@ -19,7 +19,7 @@ export function authenticate(credentials) {
       //je stock le token dans localstorage
       window.localStorage.setItem("authToken", data.token);
       //on préviens axios qu'on a un header par défauts pour les futurs requêtes
-      setAxiosToken(data.token);
+      //setAxiosToken(data.token);
       return true;
     });
 }
@@ -37,8 +37,8 @@ export function isAuthenticated() {
     return false;
   }
 }
-export function setAxiosToken(token) {
-  axios.defaults.headers["Authorization"] = "Bearer " + token;
+export function setCookies() {
+  axios.defaults.withCredentials = true;
 }
 export function logOut() {
   window.localStorage.removeItem("authToken");
@@ -47,11 +47,10 @@ export function logOut() {
 
 export function setUp() {
   const token = window.localStorage.getItem("authToken");
-
   if (token) {
     const { exp } = jwtDecode(token);
     if (exp * 1000 > new Date().getTime()) {
-      setAxiosToken(token);
+      // setAxiosToken(token);
     } else {
       logOut();
     }
@@ -60,16 +59,13 @@ export function setUp() {
   }
 }
 
-export function getUserId() {
+export function getUser() {
   const token = window.localStorage.getItem("authToken");
-  // const { identifiant } = jwtDecode(token);
-  return jwtDecode(token).identifiant;
-}
-
-export function getUsername() {
-  const token = window.localStorage.getItem("authToken");
-  // const { identifiant } = jwtDecode(token);
-  return jwtDecode(token).username;
+  if(token){  
+    return jwtDecode(token);
+  }else{
+    logOut();
+  }
 }
 
 // export default {

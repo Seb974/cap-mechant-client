@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 ProductCard.jsx (c) 2021
 Desc: description
 Created:  2021-07-05T05:52:53.094Z
-Modified: 2021-08-11T11:40:50.686Z
+Modified: 2021-08-24T07:58:04.516Z
 */
 import React, { useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -53,10 +53,13 @@ const ProductCard = ({ product, display }) => {
     }
     return (<>
         <form className="card shadow bg-body " onSubmit={handleSubmit} >
-            <div className="card-header">{product.categories[0].name}</div>
+            <div className="card-header">{product.categories[0].name} -
+            </div>
             <div className="card-body" >
                 <div>
-                    <h5 className="card-title">{product.name}</h5>
+                    <h5 className="card-title" style={{
+                        minHeight : '48px'
+                    }}>{product.name}</h5>
                     <div className="d-flex flex-row">
                         <QuantityInput
                             name="orderedQty"
@@ -65,6 +68,7 @@ const ProductCard = ({ product, display }) => {
                             number={item.orderedQty}
                             onChange={handleChange}
                             unit={product.unit}
+                            className="text-center"
                         />
                     </div>
                 </div>

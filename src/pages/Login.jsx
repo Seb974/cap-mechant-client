@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 Login.jsx (c) 2021
 Desc: description
 Created:  2021-07-22T07:57:58.411Z
-Modified: 2021-08-12T08:14:11.611Z
+Modified: 2021-08-20T09:50:40.019Z
 */
 import React, { useContext } from 'react';
 import LoginFormGroup from '../components/forms/LoginFormGroup';
@@ -11,24 +11,21 @@ import Container from "../wrappers/Container";
 import Column from '../wrappers/Column';
 import Row from '../wrappers/Row';
 import ConfigContext from '../contexts/ConfigContext';
-import {VscAccount} from 'react-icons/vsc';
+import { VscAccount } from 'react-icons/vsc';
 
-const Login = ({history}) => {
+const Login = ({ history }) => {
     return (<>
-        <Container fluid={true} row={true} justifyContent='center' className="bg-light p-5" style={{
-            maxHeight : "100% !important"
-        }}>
-            <Row justifyContent='center' >
+        <Container fluid={true} className="bg-light p-sm-0 my-5 text-center p-md-4">
+            <Row>
 
-           
-            <Column md={6} lg={3} xl={6}  className="bg-light rounded-3 shadow mb-5 bg-black" >
-                <LoginFormGroup title="Espace membre" history={history}>
-                    <div className="d-flex flex-column justify-content-center text-center mb-4">
-                       <img src="img/logo/capmechant.jpg" alt="" />
-                        <div className="text-white"><p>Espace membre Cap Méchant</p></div>
-                    </div>
-                </LoginFormGroup>
-            </Column>
+
+                <Column md={6} lg={6} xl={3} xxl={3} className="rounded-3 shadow mb-5 bg-black" >
+                    <LoginFormGroup title="Espace membre" history={history}>
+                        <div className="d-flex flex-column justify-content-center text-center mb-4">
+                            <img src="img/logo/capmechant.jpg" alt="" />
+                        </div>
+                    </LoginFormGroup>
+                </Column>
             </Row>
         </Container>
 

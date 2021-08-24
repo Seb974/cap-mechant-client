@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 cartorder.jsx (c) 2021
 Desc: Recapitulatif de la commande
 Created:  2021-08-02T09:38:04.925Z
-Modified: 2021-08-12T08:38:10.341Z
+Modified: 2021-08-16T07:07:14.667Z
 */
 
 import React, { useContext } from 'react';
@@ -17,6 +17,7 @@ import Flatpickr from 'react-flatpickr';
 import ConfigContext from '../../contexts/ConfigContext';
 import CatalogContext from '../../contexts/CatalogContext';
 import QuantityInput from '../fields/QuantityInput';
+import Button from "../fields/Button";
 
 const CartOrder = (props) => {
     const { cart, setCart } = useContext(CartContext);
@@ -103,9 +104,9 @@ const CartOrder = (props) => {
                         />
                     </div>
                     <div className="text-center my-3">
-                        <button className="btn btn-success text-center">
+                        <Button className="btn btn-success text-center">
                             Envoyer ma commande
-                        </button>
+                        </Button>
                     </div>
 
 

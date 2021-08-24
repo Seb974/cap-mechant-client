@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 cartOverview.jsx (c) 2021
 Desc: description
 Created:  2021-07-30T12:12:29.483Z
-Modified: 2021-08-12T08:23:02.612Z
+Modified: 2021-08-18T12:01:52.507Z
 */
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -79,7 +79,7 @@ const CartOverview = (props) => {
                     <button className="text-decoration-underline text-danger border-0 bg-white" onClick={handleClean}> Vider mon panier </button>
                 </div>
             }
-            <NavLink to="/ma-commande" className=" btn btn-success rounded-0 d-flex justify-content-between p-3" onClick={(event) => handleClick(event)}>
+            <NavLink to="/mon-panier" className=" btn btn-success rounded-0 d-flex justify-content-between p-3" onClick={(event) => handleClick(event)}>
                 <span> Passer commande</span>
                 <span><IoIosArrowForward /></span>
             </NavLink>
