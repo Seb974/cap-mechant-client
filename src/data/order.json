@@ -1,0 +1,9 @@
+{
+  "goods": [],
+  "metas": "/api/metas/10",
+  "provisionDate": "Wed Aug 25 2021 08:40:29 GMT+0400 (heure du Golfe)",
+  "seller": "/api/sellers/1",
+  "status": "ORDERED",
+  "supplier": "api/suppliers/1",
+  "user": "/api/users/9"
+}

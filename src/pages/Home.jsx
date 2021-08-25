@@ -39,9 +39,8 @@ const Home = (props) => {
     const [selectedSupplier, setSelectedSupplier] = useState("");
     const [currentProducts, setCurrentProducts] = useState([]);
 
-    const handleSelectChange = (event) => {
-        setSupplier({ value: event.value, label: event.label });
-        setCart({ ...cart, supplier: event.value });
+    const handleSelectChange = ({value, label}) => {
+        setSupplier({ value: value, label: label });
     }
 
     const filteredSearchProduct = () => {
@@ -70,7 +69,7 @@ const Home = (props) => {
         filteredSearchProduct();
     }, [search]);
     return (<>
-        <Row justifyContent="center" >
+        <Row justifyContent="center h-100 p-0">
             <Column xl={12} className="">
                 <div className="input-group my-3">
                     <span className="input-group-text bg-dark text-white"><AiOutlineSearch size={30} /></span>
@@ -106,16 +105,7 @@ const Home = (props) => {
                 <CartOverview />
             </Column>
         </Row>
-        <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-        />
+        
 
     </>);
 }

@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 cartOverview.jsx (c) 2021
 Desc: description
 Created:  2021-07-30T12:12:29.483Z
-Modified: 2021-08-18T12:01:52.507Z
+Modified: 2021-08-25T06:49:00.133Z
 */
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -14,20 +14,24 @@ import CartContext from '../../contexts/CartContext';
 import { NavLink } from 'react-router-dom';
 import CartApi from "../../api/CartApi";
 import { toast } from "react-toastify";
+import { isDefined, isDefinedAndNotVoid } from '../../functions/utils';
 
 const CartOverview = (props) => {
     const [isEmpty, setIsEmpty] = useState(true);
     const { cart, setCart } = useContext(CartContext);
+    
     const handleDelete = (index) => {
         const c = { ...cart };
-        c.items.splice(index, 1);
+        c.goods.splice(index, 1);
         setCart(c);
         CartApi.localStorageCart(c);
     }
+
     const handleClean = (event) => {
-        setCart({ ...cart, items: [] })
+        setCart({ ...cart, goods: [] })
         CartApi.cleanLocalCart();
     }
+
     const showToast = () => {
         toast.warn('Attention vous n\'avez pas ajouté d\'article dans le panier', {
             position: "top-right",
@@ -47,9 +51,11 @@ const CartOverview = (props) => {
 
     }
     useEffect(() => {
-        (cart.items && cart.items.length > 0) ? setIsEmpty(true) : setIsEmpty(false);
+        ( isDefined(cart) && isDefinedAndNotVoid(cart.goods)) ? setIsEmpty(true) : setIsEmpty(false);
     }, [cart]);
-    return (<>
+
+    // console.log(cart);
+    return !isDefined(cart) ? <></> : (<>
         <div className="card shadow  mb-5 bg-body rounded ">
             <div className="card-header text-white bg-dark">
                 <IoBagCheckOutline size={20} className="mb-1 me-2" />Mon panier
@@ -59,10 +65,10 @@ const CartOverview = (props) => {
                 height: "30rem"
             }}>
                 <ul className="list-group rounded-0">
-                    {(cart.items && cart.items.length > 0) ? (cart.items.map((product, index) => {
+                    {(isDefined(cart) && isDefinedAndNotVoid(cart.goods)) ? (cart.goods.map((product, index) => {
                         return (
                             <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
-                                <p className="m-0"> {product.product.name} <span className="fw-bold text-end">x {product.orderedQty}</span> </p>
+                                <p className="m-0"> {product.product.name} <span className="fw-bold text-end">x {product.quantity}</span> </p>
                                 <button className="mx-2 bg-white border-0" onClick={(event) => handleDelete(index)}><CgTrash className="mb-1 text-danger" size={25} /></button>
                             </li>
                         )
@@ -74,7 +80,7 @@ const CartOverview = (props) => {
                     }
                 </ul>
             </div>
-            {(cart.items && cart.items.length > 0) &&
+            {(cart.goods && cart.goods.length > 0) &&
                 <div className=" rounded-0 d-flex justify-content-center p-3">
                     <button className="text-decoration-underline text-danger border-0 bg-white" onClick={handleClean}> Vider mon panier </button>
                 </div>

@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 ProductCard.jsx (c) 2021
 Desc: description
 Created:  2021-07-05T05:52:53.094Z
-Modified: 2021-08-24T13:30:27.760Z
+Modified: 2021-08-25T06:25:24.293Z
 */
 import React, { useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,27 +18,27 @@ const ProductCard = ({ product, display }) => {
     const { cart, setCart } = useContext(CartContext);
     const [item, setItem] = useState({
         product: product,
-        orderedQty: 0,
-        isPrepared: true,
-        variation: null,
+        quantity: 0,
         size: null,
         unit: product.unit,
+        received: null,
         stock: 0
     })
-    const handleClick = (number) => setItem({ ...item, orderedQty: (item.orderedQty + number) < 0 ? 0 : item.orderedQty + number });
+    const handleClick = (number) => setItem({ ...item, quantity: (item.quantity + number) < 0 ? 0 : item.quantity + number });
 
     const handleChange = ({ currentTarget }) => {
-        setItem({ ...item, orderedQty: ((parseFloat(currentTarget.value)) <= 0 || currentTarget.value == "") ? 0 : parseFloat(currentTarget.value) });
+        setItem({ ...item, quantity: ((parseFloat(currentTarget.value)) <= 0 || currentTarget.value == "") ? 0 : parseFloat(currentTarget.value) });
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (item.orderedQty != 0) {
+        console.log(cart);
+        if (item.quantity != 0) {
             const c = { ...cart }; 
             const index = c.goods.findIndex(p => p.product['@id'] === product['@id']);
-            (index != -1) ? c.goods[index].orderedQty += item.orderedQty : c.goods.push(item);
+            (index != -1) ? c.goods[index].quantity += item.quantity : c.goods.push(item);
             setCart({ ...cart, goods: c.goods });
             CartApi.localStorageCart(c);
-            setItem({ ...item, orderedQty: 0 });
+            setItem({ ...item, quantity: 0 });
         } else {
             toast.error('Veuillez indiquer une quantité supérieur à 0', {
                 position: "top-right",
@@ -62,10 +62,10 @@ const ProductCard = ({ product, display }) => {
                     }}>{product.name}</h5>
                     <div className="d-flex flex-row">
                         <QuantityInput
-                            name="orderedQty"
+                            name="quantity"
                             plus={(event) => { handleClick(1) }}
                             minus={(event) => { handleClick(-1) }}
-                            number={item.orderedQty}
+                            number={item.quantity}
                             onChange={handleChange}
                             unit={product.unit}
                             className="text-center"

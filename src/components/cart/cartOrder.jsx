@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 cartorder.jsx (c) 2021
 Desc: Recapitulatif de la commande
 Created:  2021-08-02T09:38:04.925Z
-Modified: 2021-08-16T07:07:14.667Z
+Modified: 2021-08-25T07:58:00.245Z
 */
 
 import React, { useContext } from 'react';
@@ -18,33 +18,60 @@ import ConfigContext from '../../contexts/ConfigContext';
 import CatalogContext from '../../contexts/CatalogContext';
 import QuantityInput from '../fields/QuantityInput';
 import Button from "../fields/Button";
+import UserContext from '../../contexts/UserContext';
+import { isDefinedAndNotVoid } from '../../functions/utils';
+import { useHistory,Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { } from '../../api/CartApi'
 
-const CartOrder = (props) => {
+
+const CartOrder = ({history}) => {
     const { cart, setCart } = useContext(CartContext);
-    const { url, setUrl } = useContext(ConfigContext);
-    const { catalogs, setCatalogs } = useContext(CatalogContext);
+    const {user, setUser} = useContext(UserContext);
 
     const handleChange = ({ currentTarget }, index) => {
         const { name, value } = currentTarget;
-        const item = [...cart.items];
+        const item = [...cart.goods];
         item[index][name] = value;
-        setCart({ ...cart, items: item });
+        setCart({ ...cart, goods: item });
     }
 
+
     const handleClick = (index, name, number) => {
-        const item = [...cart.items];
+        const item = [...cart.goods];
         item[index][name] = parseFloat(item[index][name]) + number;
-        setCart({ ...cart, items: item });
+        setCart({ ...cart, goods: item });
     }
 
     const onDateChange = datetime => {
         const newDate = new Date(datetime[0].getFullYear(), datetime[0].getMonth(), datetime[0].getDate(), 9, 0, 0);
-        setCart({ ...cart, deliveryDate: newDate });
+        setCart({ ...cart, provisionDate: newDate });
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        CartApi.sendOrder(cart);
+        const c = {...cart};
+        if(isDefinedAndNotVoid(cart) && isDefinedAndNotVoid(user)){
+            c.name = user.name;
+            c.user = "/api/users/"+ user.id;
+            c.metas = "/api/metas/" + user.metas.id;
+            c.email = user.email;
+            CartApi.sendOrder(c);
+            toast.success('Votre commande a bien été envoyé', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                onClose: () => { 
+                    setCart(CartApi.resetCart());
+                    history.push("/");
+                }
+
+            });
+        }
     }
     return (<>
         <h1 className="fs-1 text-center mt-5"> Ma commande</h1>
@@ -53,8 +80,8 @@ const CartOrder = (props) => {
 
                 <Column lg={12}>
 
-                    {(cart.items && cart.items.length > 0) &&
-                        (cart.items.map((product, index) => {
+                    {(isDefinedAndNotVoid(cart.goods) && cart.goods.length > 0) &&
+                        (cart.goods.map((product, index) => {
                             return (
                                 <div className="row mb-2 justify-content-center" key={index}>
                                     <p className="col-sm-12 col-md-3 my-auto border-bottom fw-bold">{product.product.name}</p>
@@ -63,11 +90,11 @@ const CartOrder = (props) => {
                                         <QuantityInput
                                             unit={product.unit}
                                             label={"Quantité à commander"}
-                                            name="orderedQty"
-                                            number={product.orderedQty}
+                                            name="quantity"
+                                            number={product.quantity}
                                             onChange={(event) => handleChange(event, index)}
-                                            plus={(event) => handleClick(index, "orderedQty", 1)}
-                                            minus={(event) => handleClick(index, "orderedQty", -1)}
+                                            plus={(event) => handleClick(index, "quantity", 1)}
+                                            minus={(event) => handleClick(index, "quantity", -1)}
                                         />
                                     </div>
                                     <div className="col-sm-12 col-md-2 col-md-2">
@@ -92,7 +119,7 @@ const CartOrder = (props) => {
                         <label htmlFor="deliveryDate" className="date-label input-group-text bg-white border-0">Livraison le </label>
                         <Flatpickr
                             name="deliveryDate"
-                            value={cart.deliveryDate}
+                            value={cart.provisionDate}
                             onChange={onDateChange}
                             className={`form-control `}
                             options={{

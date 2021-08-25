@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 Cart.jsx (c) 2021
 Desc: description
 Created:  2021-08-05T09:58:02.735Z
-Modified: 2021-08-16T07:06:21.621Z
+Modified: 2021-08-25T07:00:12.431Z
 */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
@@ -12,7 +12,7 @@ import Column from '../wrappers/Column';
 import { TiArrowBack } from "react-icons/ti";
 import Button from "../components/fields/Button";
 
-const Cart = (props) => {
+const Cart = ({history}) => {
     return (<>
         <div className="d-flex justify-content-start mt-3">
             <Button variant="danger" >
@@ -20,7 +20,7 @@ const Cart = (props) => {
             </Button>
 
         </div>
-        <CartOrder ></CartOrder>
+        <CartOrder  history={history}></CartOrder>
     </>);
 }
 

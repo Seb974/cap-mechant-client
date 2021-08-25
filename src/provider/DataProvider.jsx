@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 DataProvider.jsx (c) 2021
 Desc: Component qui met a disposition toutes les données des différentes context.
 Created:  2021-06-17T07:39:04.515Z
-Modified: 2021-08-24T14:06:24.675Z
+Modified: 2021-08-25T07:42:37.203Z
 */
 
 import React, { useState, useEffect } from 'react';
@@ -26,6 +26,7 @@ import UserContext from '../contexts/UserContext';
 import SuppliersListContext from '../contexts/SuppliersListContext';
 import SupplierContext from '../contexts/SupplierContext';
 import SupplierProducts from '../contexts/SupplierProductsContext'
+import { ToastContainer } from 'react-toastify';
 
 setUp();
 setCookies();
@@ -38,11 +39,8 @@ const DataProvider = ({ children }) => {
     const [supplier, setSupplier] = useState({ value: "", label: "Selectionnez un fournisseur" });
     const [suppliersList, setSuppliersList] = useState([]);
     const [isAuth, setIsAuth] = useState(isAuthenticated());
-    const [url, setUrl] = useState(Config.setUp());
     const [cart, setCart] = useState(CartApi.cartSetUp());
-    const [country, setCountry] = useState("RE");
-    const [catalogs, setCatalogs] = useState([]);
-    const [selectedCatalog, setSelectedCatalog] = useState({});
+
 
     const findSupplierProducts = (data) => {
         const result = data.filter(product =>
@@ -81,9 +79,6 @@ const DataProvider = ({ children }) => {
                 (supplier.value != "") ? setSupplierProducts(response) : setSupplierProducts([]);
                 setProducts(response);
             })
-
-
-
             setSuppliersList(sortSupplier(supp));
         } catch (error) {
             console.log(error);
@@ -92,48 +87,49 @@ const DataProvider = ({ children }) => {
 
     useEffect(() => {
         findSupplierProducts(products);
+        const c = {...cart};
+        c.goods = [];
+        c.supplier = supplier.value;
+        setCart(c)
+        CartApi.localStorageCart(c);
     }, [supplier])
+
+    // useEffect(() => {
+    //     // CartApi.localStorageCart(cart);
+    // }, [cart])
 
     useEffect(() => {
         fecthProducts();
-        CatalogApi.findAll()
-            .then(response => setCatalogs(response));
         setUser(getUser());
+        //console.log(CartApi.cartSetUp());
+        setCart(CartApi.cartSetUp());
+        CartApi.localStorageCart(CartApi.cartSetUp());
     }, []);
 
-    useEffect(() => {
-        if (isDefinedAndNotVoid(catalogs)) {
-            const catalog = catalogs.find(catalogOption => catalogOption.code === country);
-            const selection = isDefined(catalog) ? catalog : catalogs.filter(country => country.isDefault);
-            setSelectedCatalog(selection);
-        }
-    }, [catalogs, country]);
+    // useEffect(() => {
+    //     CartApi.localStorageCart(cart);
+    // }, [cart]);
+
 
     useEffect(() => {
-        if (isAuth && catalogs.length > 0) {
-            const cat = catalogs[0]['@id'];
-            setCart(CartApi.cartSetUp(cat));
-        }
+        setUser(getUser());
     }, [isAuth])
     return (
 
-        <ConfigContext.Provider value={{ url, setUrl }}>
-            <AuthenticationContext.Provider value={{ isAuth, setIsAuth }}>
-                <UserContext.Provider value={{ user, setUser }} >
-                    <CatalogContext.Provider value={{ catalogs, setCatalogs }}>
-                        <SuppliersListContext.Provider value={{ suppliersList, setSuppliersList }}>
-                            <SupplierContext.Provider value={{ supplier, setSupplier }} >
-                                <SupplierProducts.Provider value={{ supplierProducts, setSupplierProducts }}>
-                                    <CartContext.Provider value={{ cart, setCart }}>
-                                        {children}
-                                    </CartContext.Provider>
-                                </SupplierProducts.Provider>
-                            </SupplierContext.Provider>
-                        </SuppliersListContext.Provider>
-                    </CatalogContext.Provider>
-                </UserContext.Provider>
-            </AuthenticationContext.Provider>
-        </ConfigContext.Provider >
+        <AuthenticationContext.Provider value={{ isAuth, setIsAuth }}>
+            <UserContext.Provider value={{ user, setUser }} >
+                <SuppliersListContext.Provider value={{ suppliersList, setSuppliersList }}>
+                    <SupplierContext.Provider value={{ supplier, setSupplier }} >
+                        <SupplierProducts.Provider value={{ supplierProducts, setSupplierProducts }}>
+                            <CartContext.Provider value={{ cart, setCart }}>
+                                {children}
+                            </CartContext.Provider>
+                        </SupplierProducts.Provider>
+                    </SupplierContext.Provider>
+                </SuppliersListContext.Provider>
+            </UserContext.Provider>
+            
+        </AuthenticationContext.Provider>
     );
 }
 

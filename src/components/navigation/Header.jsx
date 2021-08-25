@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 header.jsx (c) 2021
 Desc: Navbar de l'application
 Created:  2021-06-16T12:00:06.624Z
-Modified: 2021-08-20T07:56:58.694Z
+Modified: 2021-08-25T04:37:44.790Z
 */
 import React, { useContext } from 'react';
 //style
@@ -18,6 +18,7 @@ import UserContext from '../../contexts/UserContext';
 
 import DropdownButton from '../fields/DropdownButton';
 import { Link, NavLink } from 'react-router-dom';
+import { isDefinedAndNotVoid } from '../../functions/utils';
 
 const Header = ({ logo, fluid = false, className, color, variant }) => {
     const { isAuth, setIsAuth } = useContext(AuthenticationContext);
@@ -39,9 +40,8 @@ const Header = ({ logo, fluid = false, className, color, variant }) => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <DropdownButton id="AccountButton"
                         className="p-2  "
-                        label={user.email}
                         icon={<VscAccount size={25} />}
-                        label={user.email}
+                        label={(isDefinedAndNotVoid(user)) ? user.email : ""}
                         textColor="white"
                         color="#658852"
                     >
