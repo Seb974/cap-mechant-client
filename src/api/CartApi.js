@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 CartApi.js (c) 2021
 Desc: description
 Created:  2021-08-02T05:57:01.529Z
-Modified: 2021-08-25T07:19:50.575Z
+Modified: 2021-08-25T08:19:31.909Z
 */
 import { API_PROVISION } from "../configs/ApiConfig";
 import axios from "axios";
@@ -56,6 +56,10 @@ function resetCart(){
     return cartStructure();
 }
 
+function deleteStorageCart(){
+   return window.localStorage.removeItem("cart");
+}
+
 function sendOrder(data){
   return axios
     .post(API_PROVISION, {...data, goods: data.goods.map(i => ({...i, product: i.product['@id']}))});
@@ -67,5 +71,6 @@ export default {
   cartSetUp,
   localStorageCart,
   sendOrder,
-  resetCart
+  resetCart,
+  deleteStorageCart
 };

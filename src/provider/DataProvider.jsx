@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 DataProvider.jsx (c) 2021
 Desc: Component qui met a disposition toutes les données des différentes context.
 Created:  2021-06-17T07:39:04.515Z
-Modified: 2021-08-25T07:42:37.203Z
+Modified: 2021-08-25T08:23:11.091Z
 */
 
 import React, { useState, useEffect } from 'react';
@@ -113,6 +113,8 @@ const DataProvider = ({ children }) => {
 
     useEffect(() => {
         setUser(getUser());
+        setCart(CartApi.cartSetUp());
+        CartApi.localStorageCart(CartApi.cartSetUp());
     }, [isAuth])
     return (
 

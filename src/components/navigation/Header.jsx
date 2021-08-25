@@ -3,7 +3,7 @@ Author: <Brian NARBE> (bnprorun@gmail.com)
 header.jsx (c) 2021
 Desc: Navbar de l'application
 Created:  2021-06-16T12:00:06.624Z
-Modified: 2021-08-25T04:37:44.790Z
+Modified: 2021-08-25T08:21:04.346Z
 */
 import React, { useContext } from 'react';
 //style
@@ -12,6 +12,7 @@ import {FaRegFileAlt} from "react-icons/fa";
 import { VscAccount } from 'react-icons/vsc';
 import AuthenticationContext from '../../contexts/AuthenticationContext';
 import { logOut } from '../../api/AuthApi';
+import CartApi from '../../api/CartApi';
 //fields
 import Button from "../fields/Button";
 import UserContext from '../../contexts/UserContext';
@@ -24,6 +25,7 @@ const Header = ({ logo, fluid = false, className, color, variant }) => {
     const { isAuth, setIsAuth } = useContext(AuthenticationContext);
     const { user, setUser } = useContext(UserContext);
     const handleLogOut = (event) => {
+        CartApi.deleteStorageCart();
         logOut();
         setIsAuth(false);
     }
