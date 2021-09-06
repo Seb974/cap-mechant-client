@@ -61,10 +61,8 @@ const DataProvider = ({ children }) => {
             const supp = [...suppliersList];
             ProductApi.allProducts().then(response => {
                 response.map((product) => {
-                    // console.log(product);
                     if (isDefinedAndNotVoid(product.suppliers)) {
                         product.suppliers.map((su) => {
-                            // console.log(su);
                             if (supp && supp.length === 0) {
                                 return supp.push({ value: su['@id'], label: su.name });
                             } else {
@@ -86,8 +84,8 @@ const DataProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        findSupplierProducts(products);
-        const c = {...cart};
+        // findSupplierProducts(products);
+        const c = { ...cart };
         c.goods = [];
         c.supplier = supplier.value;
         setCart(c)
@@ -99,11 +97,14 @@ const DataProvider = ({ children }) => {
     // }, [cart])
 
     useEffect(() => {
-        fecthProducts();
-        setUser(getUser());
-        //console.log(CartApi.cartSetUp());
-        setCart(CartApi.cartSetUp());
-        CartApi.localStorageCart(CartApi.cartSetUp());
+        if (isAuth) {
+            fecthProducts();
+            setUser(getUser());
+            // console.log(CartApi.cartSetUp());
+            setCart(CartApi.cartSetUp());
+            CartApi.localStorageCart(CartApi.cartSetUp());
+        }
+
     }, []);
 
     // useEffect(() => {
@@ -112,9 +113,13 @@ const DataProvider = ({ children }) => {
 
 
     useEffect(() => {
-        setUser(getUser());
-        setCart(CartApi.cartSetUp());
-        CartApi.localStorageCart(CartApi.cartSetUp());
+        console.log(isAuth)
+        if (isAuth) {
+            fecthProducts();
+            setUser(getUser());
+            setCart(CartApi.cartSetUp());
+            CartApi.localStorageCart(CartApi.cartSetUp());
+        }
     }, [isAuth])
     return (
 
@@ -130,7 +135,6 @@ const DataProvider = ({ children }) => {
                     </SupplierContext.Provider>
                 </SuppliersListContext.Provider>
             </UserContext.Provider>
-            
         </AuthenticationContext.Provider>
     );
 }
