@@ -53,7 +53,7 @@ const ProductCard = ({ product, display }) => {
     }
     return (<>
         <form className="card shadow bg-body " onSubmit={handleSubmit} >
-            <div className="card-header">{product.categories[0].name} -
+            <div className="card-header">{product.categories}
             </div>
             <div className="card-body" >
                 <div>

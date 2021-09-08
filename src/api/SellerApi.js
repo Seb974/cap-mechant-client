@@ -1,0 +1,18 @@
+/*
+Author: <Brian NARBE> (bnprorun@gmail.com)
+SupplierApi.js (c) 2021
+Desc: api suppliers
+Created:  2021-08-24T05:02:45.156Z
+Modified: 2021-08-25T05:12:35.257Z
+*/
+import  { API_SELLER } from "../configs/ApiConfig";
+import axios from "axios";
+
+
+function findAll(){
+    return axios.get(API_SELLER).then((response) => response.data["hydra:member"]);
+}
+
+export default {
+    findAll
+}

@@ -15,6 +15,7 @@ import CartApi from "../api/CartApi";
 import CatalogApi from "../api/CatalogApi";
 import ProductApi from '../api/ProductApi';
 import SupplierApi from '../api/SupplierApi';
+import SellerApi from '../api/SellerApi';
 
 import { isDefined, isDefinedAndNotVoid } from '../functions/utils';
 import ProductContext from '../contexts/ProductContext';
@@ -27,13 +28,18 @@ import SuppliersListContext from '../contexts/SuppliersListContext';
 import SupplierContext from '../contexts/SupplierContext';
 import SupplierProducts from '../contexts/SupplierProductsContext'
 import { ToastContainer } from 'react-toastify';
+import CategoryContext from '../contexts/CategoryContext';
+import SellerContext from '../contexts/SellerContext';
 
 setUp();
 setCookies();
 
 const DataProvider = ({ children }) => {
 
+    const [seller , setSeller] = useState([]);
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState({ value: "", label: "Selectionnez une catégorie" });
     const [supplierProducts, setSupplierProducts] = useState([]);
     const [user, setUser] = useState({});
     const [supplier, setSupplier] = useState({ value: "", label: "Selectionnez un fournisseur" });
@@ -46,9 +52,26 @@ const DataProvider = ({ children }) => {
         const result = data.filter(product =>
             (isDefinedAndNotVoid(product.suppliers) && product.suppliers.findIndex(s => s['@id'] === supplier.value) != -1)
         )
+        editCategoriesList(result);
         setSupplierProducts(result);
     }
+    const editCategoriesList = (productsList) => {
+        const cats = [];
+        if (isDefinedAndNotVoid(productsList)) {
+            productsList.map((p, index) => {
+                if (cats.findIndex(s => s.label === p.categories) == -1) cats.push({ label: p.categories, value: index });
+            })
+            setCategories(cats);
+        }
+    }
+    const sortCategories = (c) => {
+        if (isDefinedAndNotVoid(c)) {
+            return c.sort((a, b) => {
+                return (a < b) ? -1 : 1;
+            })
+        } else return [];
 
+    }
     const sortSupplier = (p) => {
         if (p && p.length > 0) {
             return p.sort((a, b) => {
@@ -84,36 +107,29 @@ const DataProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        // findSupplierProducts(products);
+        findSupplierProducts(products);
         const c = { ...cart };
         c.goods = [];
         c.supplier = supplier.value;
+        setCategory({value : "", label : "Selectionnez une catégorie"});
         setCart(c)
         CartApi.localStorageCart(c);
     }, [supplier])
-
-    // useEffect(() => {
-    //     // CartApi.localStorageCart(cart);
-    // }, [cart])
 
     useEffect(() => {
         if (isAuth) {
             fecthProducts();
             setUser(getUser());
-            // console.log(CartApi.cartSetUp());
             setCart(CartApi.cartSetUp());
             CartApi.localStorageCart(CartApi.cartSetUp());
+            if (supplier.value != "") findSupplierProducts(products);
+            SellerApi
+                .findAll()
+                .then(response => setSeller(response[0]));
         }
-
     }, []);
 
-    // useEffect(() => {
-    //     CartApi.localStorageCart(cart);
-    // }, [cart]);
-
-
     useEffect(() => {
-        console.log(isAuth)
         if (isAuth) {
             fecthProducts();
             setUser(getUser());
@@ -125,15 +141,19 @@ const DataProvider = ({ children }) => {
 
         <AuthenticationContext.Provider value={{ isAuth, setIsAuth }}>
             <UserContext.Provider value={{ user, setUser }} >
+                <SellerContext.Provider value={{seller, setSeller}} >
                 <SuppliersListContext.Provider value={{ suppliersList, setSuppliersList }}>
                     <SupplierContext.Provider value={{ supplier, setSupplier }} >
                         <SupplierProducts.Provider value={{ supplierProducts, setSupplierProducts }}>
-                            <CartContext.Provider value={{ cart, setCart }}>
-                                {children}
-                            </CartContext.Provider>
+                            <CategoryContext.Provider value={{categories, setCategories, category, setCategory }}>
+                                <CartContext.Provider value={{ cart, setCart }}>
+                                    {children}
+                                </CartContext.Provider>
+                            </CategoryContext.Provider>
                         </SupplierProducts.Provider>
                     </SupplierContext.Provider>
                 </SuppliersListContext.Provider>
+                </SellerContext.Provider>
             </UserContext.Provider>
         </AuthenticationContext.Provider>
     );

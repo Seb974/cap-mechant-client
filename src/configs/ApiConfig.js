@@ -5,6 +5,7 @@ const CLIENT_DOMAIN = ENV === "development" ? "http://localhost:3001" : "https:/
 
 //route api
 export const API_PRODUCT = API_DOMAIN + "/api/products";
+export const API_SELLER = API_DOMAIN + "/api/sellers";
 export const API_LOGIN = API_DOMAIN + "/api/login_check";
 export const API_USER = API_DOMAIN + "/api/users";
 export const API_CATALOG = API_DOMAIN + "/api/catalogs";

@@ -23,10 +23,12 @@ import { isDefinedAndNotVoid } from '../../functions/utils';
 import { useHistory,Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { } from '../../api/CartApi'
+import SellerContext from '../../contexts/SellerContext';
 
 
 const CartOrder = ({history}) => {
     const { cart, setCart } = useContext(CartContext);
+    const {seller, setSeller} = useContext(SellerContext);
     const {user, setUser} = useContext(UserContext);
 
     const handleChange = ({ currentTarget }, index) => {
@@ -56,6 +58,7 @@ const CartOrder = ({history}) => {
             c.user = "/api/users/"+ user.id;
             c.metas = "/api/metas/" + user.metas.id;
             c.email = user.email;
+            c.seller = seller['@id'];
             CartApi.sendOrder(c);
             toast.success('Votre commande a bien été envoyé', {
                 position: "top-right",
@@ -71,8 +74,11 @@ const CartOrder = ({history}) => {
                 }
 
             });
+            console.log(c);
         }
     }
+
+    console.log(seller);
     return (<>
         <h1 className="fs-1 text-center mt-5"> Ma commande</h1>
         <form onSubmit={handleSubmit}>
