@@ -9,7 +9,9 @@ import React from 'react';
 
 const Footer = (props) => {
     return ( <>
-        <footer className="footer mb-0 py-3 bg-light fixed-bottom">
+        <footer className="footer mb-0 py-3 bg-light position-fixed" style={{
+            bottom : '0px'
+        }}>
             <div className="container">
                 <span className="text-muted">© 2021 cap-mechant.re</span>
             </div>

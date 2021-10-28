@@ -7,9 +7,11 @@ Modified: 2021-08-18T11:45:41.390Z
 */
 import React from 'react';
 
-const Button = ({className, variant, color, textColor, type = "submit" , children , onClick}) => {
+const Button = ({className, variant, color, textColor, type = "submit" , children , onClick, disabled=false}) => {
     return (<>
-        <button className={`border-0 ${className ? className : ""} ${variant ? " btn btn-" + variant : " btn"}`} onClick={onClick}
+        <button className={`border-0 ${className ? className : ""} ${variant ? " btn btn-" + variant : " btn"}`} 
+        disabled={disabled}
+        onClick={onClick}
             style={{
                 backgroundColor: color,
                 color : textColor,

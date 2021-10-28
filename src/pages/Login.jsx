@@ -17,9 +17,7 @@ const Login = ({ history }) => {
     return (<>
         <Container fluid={true} className="bg-light p-sm-0 my-5 text-center p-md-4">
             <Row>
-
-
-                <Column md={6} lg={6} xl={3} xxl={3} className="rounded-3 shadow mb-5 bg-black" >
+                <Column xs={11} sm={11} md={7} lg={6} xl={4} xxl={3} className="rounded-3 shadow mb-5 bg-black" >
                     <LoginFormGroup title="Espace membre" history={history}>
                         <div className="d-flex flex-column justify-content-center text-center mb-4">
                             <img src="img/logo/capmechant.jpg" alt="" />

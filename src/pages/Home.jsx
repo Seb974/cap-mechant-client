@@ -28,12 +28,14 @@ import SuppliersListContext from '../contexts/SuppliersListContext';
 import SupplierContext from '../contexts/SupplierContext';
 import SupplierProductsContext from '../contexts/SupplierProductsContext';
 import CategoryContext from '../contexts/CategoryContext';
+import OffCanvasSelect from '../components/navigation/OffCanvasSelect';
+import { IoOptions } from 'react-icons/io5';
 
 
 const Home = (props) => {
     const { supplierProducts, setSupplierProducts } = useContext(SupplierProductsContext);
     const { cart, setCart } = useContext(CartContext);
-    const {categories, setCategories, category, setCategory} = useContext(CategoryContext);
+    const { categories, setCategories, category, setCategory } = useContext(CategoryContext);
     const [search, setSearch] = useState("");
     const [display, setDisplay] = useState("list");
     const { supplier, setSupplier } = useContext(SupplierContext);
@@ -42,8 +44,8 @@ const Home = (props) => {
     const [currentProducts, setCurrentProducts] = useState([]);
 
     const handleSelectChange = (event, currentSelect) => {
-        if(currentSelect === "supp") setSupplier({ value: event.value, label: event.label });
-        if(currentSelect === "cats") setCategory({value: event.value, label: event.label });
+        if (currentSelect === "supp") setSupplier({ value: event.value, label: event.label, isIntern : event.isIntern });
+        if (currentSelect === "cats") setCategory({ value: event.value, label: event.label });
     }
 
     const filteredSearchProduct = () => {
@@ -51,7 +53,7 @@ const Home = (props) => {
         if (supplierProducts && supplierProducts.length > 0) {
             const tab = [...supplierProducts]
             const result = tab.filter(product =>
-                product.name.toLowerCase().includes(search.toLowerCase()) && 
+                product.name.toLowerCase().includes(search.toLowerCase()) &&
                 product.categories.toLowerCase().includes(checkCat.toLowerCase())
             )
             setCurrentProducts(result);
@@ -72,54 +74,62 @@ const Home = (props) => {
     useEffect(() => {
         filteredSearchProduct();
     }, [search, category]);
-    console.log(categories);
-    console.log(category);
+    // console.log(categories);
+    // console.log(category);
     return (<>
-        <Row justifyContent="center h-100 p-0">
-            <Column xl={12} className="">
+        <Row justifyContent="center p-0">
+            <Column xl={12} className="d-flex flex-row">
                 <div className="input-group my-3">
                     <span className="input-group-text bg-dark text-white"><AiOutlineSearch size={30} /></span>
-                    <input type="text" className="form-control" placeholder="Nom produit, catégorie" value={search} onChange={handleChange} />
+                    <input type="text" className="form-control" placeholder="Rechercher..." value={search} onChange={handleChange} />
                 </div>
+                <div className="my-auto ms-2 d-xs-block d-lg-none ">
+                    <OffCanvasSelect placement='start'>
+                        <IoOptions size={25}  className="mb-1"/>
+                    </OffCanvasSelect>
+                </div>
+
             </Column>
-            <Column lg={9} className=" h-100  " >
-                <div className="row  scrollbar" >
+        </Row>
+        <Row justifyContent="start h-100 p-0">
+            <Column lg={9} className=" h-100 " >
+                <div className="row scrollbar" >
                     {(currentProducts && currentProducts.length > 0) && currentProducts.map((product, index) => {
                         return (display != "list") ?
                             (<Column md={12} lg={12} xl={12} className=" mb-2" key={product.id}>
                                 <ProductList product={product} />
                             </Column>
                             ) : (
-                                <Column md={6} lg={4} xl={3} className=" mb-4" key={product.id}>
+                                <Column sm={6} md={4} lg={4} xl={4} xxl={3} className=" mb-4" key={product.id}>
                                     <ProductCard product={product} />
                                 </Column>
                             )
                     }
                     )}
                     {(currentProducts.length <= 0) &&
-                        <span className="m-5  text-center text-dark m-5 fst-italic">Merci de bien vouloir selectionner un fournisseur</span>
+                        <span className=" my-5 text-center text-dark fst-italic">Merci de bien vouloir selectionner un fournisseur</span>
                     }
                 </div>
             </Column>
-            <Column lg={3} xl={3} className="d-none d-lg-block h-100">
+            <Column lg={3} xl={3} className="d-none d-lg-block  ">
                 <SelectList
                     data={suppliersList}
                     label="Selectionnez un fournisseur..."
                     placeholder="Selectionnez un fournisseur"
-                    onChange={(event) => handleSelectChange(event,"supp")}
+                    onChange={(event) => handleSelectChange(event, "supp")}
                     value={supplier}
                 />
                 <SelectList
                     data={categories}
                     label="Selectionnez une catégorie..."
-                    onChange={(event) => handleSelectChange(event,"cats")}
+                    onChange={(event) => handleSelectChange(event, "cats")}
                     // defaultValue={category}
                     value={category}
                 />
                 <CartOverview />
             </Column>
         </Row>
-        
+
 
     </>);
 }

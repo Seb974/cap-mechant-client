@@ -8,7 +8,7 @@ Modified: 2021-08-25T08:21:04.346Z
 import React, { useContext } from 'react';
 //style
 import { AiOutlinePoweroff, AiOutlineSearch } from "react-icons/ai";
-import {FaRegFileAlt} from "react-icons/fa";
+import { FaRegFileAlt } from "react-icons/fa";
 import { VscAccount } from 'react-icons/vsc';
 import AuthenticationContext from '../../contexts/AuthenticationContext';
 import { logOut } from '../../api/AuthApi';
@@ -26,8 +26,9 @@ const Header = ({ logo, fluid = false, className, color, variant }) => {
     const { user, setUser } = useContext(UserContext);
     const handleLogOut = (event) => {
         CartApi.deleteStorageCart();
-        logOut();
         setIsAuth(false);
+        logOut();
+        
     }
     return (<>
         <nav className={`navbar navbar-expand-lg navbar-light  ${variant ? "bg-" + variant : ""} ${className}`} style={{
@@ -39,9 +40,15 @@ const Header = ({ logo, fluid = false, className, color, variant }) => {
                 </a>
                 {//icons 
                 }
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <div className="ms-auto" id="navbarSupportedContent">
+                    {/* <div className="btn-group ms-auto">
+                        <Button className="dropdown-item bg-danger text-white py-2 text-center d-xs-block d-lg-none " onClick={handleLogOut}>
+                            <AiOutlinePoweroff className="mb-1 " size={20} />
+                        </Button>
+                    </div> */}
                     <DropdownButton id="AccountButton"
-                        className="p-2  "
+                        className="p-2"
                         icon={<VscAccount size={25} />}
                         label={(isDefinedAndNotVoid(user)) ? user.email : ""}
                         textColor="white"
@@ -49,10 +56,10 @@ const Header = ({ logo, fluid = false, className, color, variant }) => {
                     >
                         <ul className="dropdown-menu dropdown-menu-end p-0" aria-labelledby="AccountButton">
                             {/* <li><button className="dropdown-item" href="#">Action</button></li> */}
-                            <li className=""><Link  to="/mes-commandes" className="dropdown-item py-2" href="#"><FaRegFileAlt size={20} className="mb-1"/> Mes commandes</Link></li>
+                            <li className=""><Link to="/mes-commandes" className="dropdown-item py-2" href="#"><FaRegFileAlt size={20} className="mb-1" /> Mes commandes</Link></li>
                             {/* <li><hr className="dropdown-divider" /></li> */}
                             <li className="">
-                                <Button className="dropdown-item bg-danger text-white py-2 text-center" onClick={handleLogOut}><AiOutlinePoweroff  className="mb-1 " size={20} /> Deconnexion  </Button>
+                                <Button className="dropdown-item bg-danger text-white py-2 text-center" onClick={handleLogOut}><AiOutlinePoweroff className="mb-1 " size={20} /> Deconnexion  </Button>
                             </li>
                         </ul>
                     </DropdownButton>

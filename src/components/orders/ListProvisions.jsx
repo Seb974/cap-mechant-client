@@ -19,8 +19,8 @@ const ListProvisions = (props) => {
     const fetchProvisions = async () => {
         try {
             const data = await findAll();
-            console.log(data);
-            setProvisions(data);
+            // console.log(data);
+            setProvisions(data.sort((a, b) => (new Date(a.provisionDate) < new Date(b.provisionDate)) ? 1 : -1));
         } catch (error) {
             console.log(error);
         }
@@ -30,7 +30,7 @@ const ListProvisions = (props) => {
         fetchProvisions();
     },[]);
 
-    return <Accordion provisions={ provisions } setProvisions={ setProvisions } />;
+    return <Accordion provisions={ provisions} setProvisions={ setProvisions } />;
 }
  
 export default ListProvisions;

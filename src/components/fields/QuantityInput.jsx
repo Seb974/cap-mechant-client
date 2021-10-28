@@ -15,28 +15,27 @@ const QuantityInput = ({ label = "", name, number, onChange, plus, minus, unit, 
     return (<>
         <div className="my-auto ">
             {label && (
-                <p className="">{label}</p>
+                <p className="mb-1">{label}</p>
             )}
 
             <div className="input-group  d-flex justify-content-center">
                 <span
-                    className={`input-group-text btn btn-outline-dark ${padding ? "p-" + padding : ""} `}
+                    className={`input-group-text btn btn-outline-dark `}
                     name="orderedQty-plus" onClick={minus}
                 >
                     <HiOutlineMinusCircle size="25" />
                 </span>
                 <input
                     type="number"
+                    min="0"
                     name={name} className="form-control text-center border border-dark border-end-0"
                     value={number}
                     onChange={onChange}
-                    style={{
-                        maxWidth : "20%"
-                    }}
+                    step="any"
                 />
                 <span className="input-group-text bg-white border border-dark border-start-0 ">{unit}</span>
                 <span
-                    className={`input-group-text btn btn-outline-dark ${padding ? "p-" + padding : ""} `}
+                    className={`input-group-text btn btn-outline-dark  `}
                     name="orderedQty-minus"
                     onClick={plus}
                 >

@@ -24,10 +24,12 @@ import { useHistory,Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { } from '../../api/CartApi'
 import SellerContext from '../../contexts/SellerContext';
+import SupplierContext from '../../contexts/SupplierContext';
 
 
 const CartOrder = ({history}) => {
     const { cart, setCart } = useContext(CartContext);
+    const {supplier, setSupplier} = useContext(SupplierContext);
     const {seller, setSeller} = useContext(SellerContext);
     const {user, setUser} = useContext(UserContext);
 
@@ -59,6 +61,7 @@ const CartOrder = ({history}) => {
             c.metas = "/api/metas/" + user.metas.id;
             c.email = user.email;
             c.seller = seller['@id'];
+            c.status = (supplier.isIntern) ? "ORDERED" : "WAITING";
             CartApi.sendOrder(c);
             toast.success('Votre commande a bien été envoyé', {
                 position: "top-right",
@@ -89,10 +92,10 @@ const CartOrder = ({history}) => {
                     {(isDefinedAndNotVoid(cart.goods) && cart.goods.length > 0) &&
                         (cart.goods.map((product, index) => {
                             return (
-                                <div className="row mb-2 justify-content-center" key={index}>
-                                    <p className="col-sm-12 col-md-3 my-auto border-bottom fw-bold">{product.product.name}</p>
+                                <div className="row mb-3 justify-content-center" key={index}>
+                                    <p className="col-sm-12 col-md-3 my-auto border-bottom fw-bold mb-sm-2">{product.product.name}</p>
 
-                                    <div className="col-sm-12 col-md-2">
+                                    <div className="col-xs-12 col-sm-5 col-md-4 col-xxl-2 text-center mb-2">
                                         <QuantityInput
                                             unit={product.unit}
                                             label={"Quantité à commander"}
@@ -103,7 +106,7 @@ const CartOrder = ({history}) => {
                                             minus={(event) => handleClick(index, "quantity", -1)}
                                         />
                                     </div>
-                                    <div className="col-sm-12 col-md-2 col-md-2">
+                                    <div className="col-xs-12 col-sm-5 col-md-4 col-xxl-2 text-center mb-2">
                                         <QuantityInput
                                             unit={product.unit}
                                             label={"Mon stock"}

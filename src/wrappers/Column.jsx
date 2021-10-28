@@ -10,7 +10,7 @@ import React from 'react';
 const Column = ({ children, xs = 12, sm = 12, md, lg, xl, xxl, className=""}) => {
 
     return (<>
-        <div className={` ${xs ? " col-xs-" + xs : ""} ${sm ? " col-sm-" + sm : ""} ${md ? " col-md-" + md : ""}${lg ? " col-lg-" + lg : ""}${xl ? " col-xl-" + xl : ""}${xxl ? " col-xxl-" + xl : ""}
+        <div className={` ${xs ? " col-xs-" + xs : ""} ${sm ? " col-sm-" + sm : ""} ${md ? " col-md-" + md : ""}${lg ? " col-lg-" + lg : ""}${xl ? " col-xl-" + xl : ""}${xxl ? " col-xxl-" + xxl : ""}
         ${className}`}
         >
             {children}

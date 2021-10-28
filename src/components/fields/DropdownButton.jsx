@@ -23,7 +23,7 @@ const DropdownButton = ({ id, label, icon, children, color, backgroundColor="", 
             }}
             >
                 {icon}
-                <span className="ms-2">{label}</span>
+                <span className="ms-2 d-none d-lg-inline-block">{label}</span>
             </button>
             {children}
         </div>

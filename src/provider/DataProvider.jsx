@@ -39,10 +39,10 @@ const DataProvider = ({ children }) => {
     const [seller , setSeller] = useState([]);
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [category, setCategory] = useState({ value: "", label: "Selectionnez une catégorie" });
+    const [category, setCategory] = useState({ value: "", label: "Tous" });
     const [supplierProducts, setSupplierProducts] = useState([]);
     const [user, setUser] = useState({});
-    const [supplier, setSupplier] = useState({ value: "", label: "Selectionnez un fournisseur" });
+    const [supplier, setSupplier] = useState({ value: "", label: "Selectionnez un fournisseur", isIntern : false });
     const [suppliersList, setSuppliersList] = useState([]);
     const [isAuth, setIsAuth] = useState(isAuthenticated());
     const [cart, setCart] = useState(CartApi.cartSetUp());
@@ -87,10 +87,10 @@ const DataProvider = ({ children }) => {
                     if (isDefinedAndNotVoid(product.suppliers)) {
                         product.suppliers.map((su) => {
                             if (supp && supp.length === 0) {
-                                return supp.push({ value: su['@id'], label: su.name });
+                                return supp.push({ value: su['@id'], label: su.name, isIntern : su.isIntern });
                             } else {
                                 const check = supp.findIndex((item) => item.value === su['@id']);
-                                return (check === -1) ? supp.push({ value: su['@id'], label: su.name }) : 0
+                                return (check === -1) ? supp.push({ value: su['@id'], label: su.name, isIntern : su.isIntern }) : 0
                             }
                         })
 
@@ -111,7 +111,7 @@ const DataProvider = ({ children }) => {
         const c = { ...cart };
         c.goods = [];
         c.supplier = supplier.value;
-        setCategory({value : "", label : "Selectionnez une catégorie"});
+        setCategory({value : "", label : "Tous"});
         setCart(c)
         CartApi.localStorageCart(c);
     }, [supplier])
@@ -136,7 +136,15 @@ const DataProvider = ({ children }) => {
             setCart(CartApi.cartSetUp());
             CartApi.localStorageCart(CartApi.cartSetUp());
         }
+        if(!isAuth){
+            setSupplierProducts([]);
+            setProducts([]);
+            setSuppliersList([]);
+            setSupplier({ value: "", label: "Selectionnez un fournisseur", isIntern : false });
+            setCategory({ value: "", label: "Tous" });
+        }
     }, [isAuth])
+    // console.log(suppliersList);
     return (
 
         <AuthenticationContext.Provider value={{ isAuth, setIsAuth }}>

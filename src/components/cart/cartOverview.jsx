@@ -15,11 +15,12 @@ import { NavLink } from 'react-router-dom';
 import CartApi from "../../api/CartApi";
 import { toast } from "react-toastify";
 import { isDefined, isDefinedAndNotVoid } from '../../functions/utils';
+import Button from '../fields/Button';
 
 const CartOverview = (props) => {
     const [isEmpty, setIsEmpty] = useState(true);
     const { cart, setCart } = useContext(CartContext);
-    
+
     const handleDelete = (index) => {
         const c = { ...cart };
         c.goods.splice(index, 1);
@@ -51,7 +52,7 @@ const CartOverview = (props) => {
 
     }
     useEffect(() => {
-        ( isDefined(cart) && isDefinedAndNotVoid(cart.goods)) ? setIsEmpty(true) : setIsEmpty(false);
+        (isDefined(cart) && isDefinedAndNotVoid(cart.goods)) ? setIsEmpty(true) : setIsEmpty(false);
     }, [cart]);
 
     // console.log(cart);
@@ -80,11 +81,17 @@ const CartOverview = (props) => {
                     }
                 </ul>
             </div>
-            {(cart.goods && cart.goods.length > 0) &&
-                <div className=" rounded-0 d-flex justify-content-center p-3">
-                    <button className="text-decoration-underline text-danger border-0 bg-white" onClick={handleClean}> Vider mon panier </button>
-                </div>
-            }
+            <div className=" rounded-0 d-flex justify-content-center p-3">
+                <Button
+                    onClick={handleClean}
+                    variant={(cart.goods && cart.goods.length > 0) ? "danger" : "light"}
+                    disabled={(cart.goods && cart.goods.length > 0) ? false : true}
+                >
+                    Vider mon panier
+
+                </Button>
+            </div>
+
             <NavLink to="/mon-panier" className=" btn btn-success rounded-0 d-flex justify-content-between p-3" onClick={(event) => handleClick(event)}>
                 <span> Passer commande</span>
                 <span><IoIosArrowForward /></span>

@@ -8,9 +8,9 @@ Modified: 2021-08-20T11:45:11.113Z
 
 import React from 'react';
 
-const Table = ({ header, children, variant=""}) => {
+const Table = ({ header, children, variant="", className=""}) => {
     return (<>
-        <table className={`table  table-striped ${variant ? "table-"+ variant : ""}`}>
+        <table className={`table  ${variant ? "table-"+ variant : ""}  ${className}`}>
             <thead>
                 <tr>
                     {(header && header.length > 0) &&
