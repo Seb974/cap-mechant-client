@@ -44,7 +44,7 @@ const ProvisionModal = ({ item, provisions, setProvisions, index }) => {
         return {
             ...receivedProvision,
             status: "DELIVERED",
-            seller: receivedProvision.seller['@id'],
+            // seller: receivedProvision.seller['@id'],
             supplier: receivedProvision.supplier['@id'],
             metas: receivedProvision.metas['@id'],
             user: receivedProvision.user['@id'],

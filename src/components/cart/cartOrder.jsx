@@ -6,7 +6,7 @@ Created:  2021-08-02T09:38:04.925Z
 Modified: 2021-08-25T07:58:00.245Z
 */
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Row from "../../wrappers/Row";
 import CartContext from '../../contexts/CartContext';
 import CartApi from '../../api/CartApi';
@@ -28,6 +28,7 @@ import SupplierContext from '../../contexts/SupplierContext';
 
 
 const CartOrder = ({history}) => {
+    const [isDisabled, setIsDisabled] = useState(false);
     const { cart, setCart } = useContext(CartContext);
     const {supplier, setSupplier} = useContext(SupplierContext);
     const {seller, setSeller} = useContext(SellerContext);
@@ -54,6 +55,7 @@ const CartOrder = ({history}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setIsDisabled(true);
         const c = {...cart};
         if(isDefinedAndNotVoid(cart) && isDefinedAndNotVoid(user)){
             c.name = user.name;
@@ -77,14 +79,11 @@ const CartOrder = ({history}) => {
                 }
 
             });
-            console.log(c);
         }
     }
-
-    console.log(seller);
     return (<>
         <h1 className="fs-1 text-center mt-5"> Ma commande</h1>
-        <form onSubmit={handleSubmit}>
+        <form >
             <Row className="py-5" justifyContent="center">
 
                 <Column lg={12}>
@@ -139,16 +138,21 @@ const CartOrder = ({history}) => {
                             }}
                         />
                     </div>
-                    <div className="text-center my-3">
-                        <Button className="btn btn-success text-center">
-                            Envoyer ma commande
-                        </Button>
-                    </div>
+                    
 
 
                 </Column>
             </Row>
         </form>
+        <Row className="py-5" justifyContent="center">
+            <Column lg={12}>
+                    <div className="text-center my-3">
+                        <Button className="btn btn-success text-center" disabled={isDisabled} onClick={handleSubmit}>
+                            Envoyer ma commande
+                        </Button>
+                    </div>
+            </Column>
+        </Row>
 
     </>);
 }

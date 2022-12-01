@@ -52,6 +52,8 @@ const ProductList = ({ product }) => {
             });
         }
     }
+
+    console.log(parseFloat("05"));
     return (<>
         <div className=" d-flex flex-row border border-1">
             <button className="btn btn-dark py-3 text-white ">

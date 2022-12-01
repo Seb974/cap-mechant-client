@@ -29,7 +29,14 @@ const ProductCard = ({ product, display }) => {
     };
 
     const handleChange = ({ currentTarget }) => {
-        setItem({ ...item, quantity: ((parseFloat(currentTarget.value)) <= 0 || currentTarget.value == "") ? 0 : parseFloat(currentTarget.value) });
+        if(currentTarget.value.match(/^0[0-9]+/g) != null){
+            // console.log(currentTarget.value.substr(1));
+            const val = currentTarget.value.substr(1);
+            setItem({ ...item, quantity: ((parseFloat(currentTarget.value)) <= 0 || currentTarget.value == "") ? 0 : val });
+        }else{
+            setItem({ ...item, quantity: ((parseFloat(currentTarget.value)) <= 0 || currentTarget.value == "") ? 0 : parseFloat(currentTarget.value) });
+        }
+        
     }
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -62,7 +69,7 @@ const ProductCard = ({ product, display }) => {
             });
         }
     }
-
+    // console.log(parseFloat("05"));
     return (<>
         <form className="card shadow bg-body " onSubmit={handleSubmit} >
             <div className="card-header">{product.categories}
